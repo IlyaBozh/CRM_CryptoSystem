@@ -1,4 +1,13 @@
+using CRM_CryptoSystem.API.Infastructure;
+using System.Data;
+using System.Data.SqlClient;
+
 var builder = WebApplication.CreateBuilder(args);
+
+var dbConfig = new DbConfig();
+builder.Configuration.Bind(dbConfig);
+
+builder.Services.AddScoped<IDbConnection>(c => new SqlConnection(dbConfig.CRM_CONNECTION_STRING));
 
 // Add services to the container.
 
