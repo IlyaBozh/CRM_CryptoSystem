@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CRM_CryptoSystem.BusinessLayer.Services.Interfaces
 {
-    internal interface ILeadsService
+    public interface ILeadsService
     {
     }
 }
