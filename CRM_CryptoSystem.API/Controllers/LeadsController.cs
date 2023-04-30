@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CRM_CryptoSystem.API.Models.Requests;
+using CRM_CryptoSystem.API.Models.Responses;
 using CRM_CryptoSystem.BusinessLayer.Services;
 using CRM_CryptoSystem.BusinessLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -36,5 +37,29 @@ public class LeadsController : ControllerBase
             $"{request.Email}, {request.Passport}");
 
         return Created("create", 1);
+    }
+
+    [Authorize]
+    [HttpGet("{id}")]
+    [ProducesResponseType(typeof(LeadAllInfoResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<LeadAllInfoResponse>> GetById(int id)
+    {
+        // var claims = this.GetClaims();
+        var lead = new LeadAllInfoResponse { Id = id };
+
+        _logger.LogInformation($"Controller: Get lead by id {id}: {lead.FirstName}, {lead.LastName}, {lead.Patronymic}, {lead.Birthday}, {lead.Phone}, " +
+            $", {lead.Email}, {lead.Passport}");
+
+        if (lead is null)
+        {
+            return NotFound();
+        }
+        else
+        {
+            return Ok(lead);
+        }
     }
 }
