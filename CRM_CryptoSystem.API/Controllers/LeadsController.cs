@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
+using CRM_CryptoSystem.API.Enums;
+using CRM_CryptoSystem.API.Infastructure;
 using CRM_CryptoSystem.API.Models.Requests;
 using CRM_CryptoSystem.API.Models.Responses;
 using CRM_CryptoSystem.BusinessLayer.Services;
 using CRM_CryptoSystem.BusinessLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace CRM_CryptoSystem.API.Controllers;
 
@@ -61,5 +62,16 @@ public class LeadsController : ControllerBase
         {
             return Ok(lead);
         }
+    }
+
+    [AuthorizeByRole(Role.Admin)]
+    [HttpGet]
+    [ProducesResponseType(typeof(List<LeadMainInfoResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
+    public async Task<ActionResult<List<LeadMainInfoResponse>>> GetAll()
+    {
+        _logger.LogInformation("Controller: Get all leads");
+        var leads = new List<LeadMainInfoResponse>();
+        return Ok(leads);
     }
 }
