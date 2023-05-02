@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CRM_CryptoSystem.API.Models.Requests;
 using CRM_CryptoSystem.API.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -52,5 +53,20 @@ public class AccountsController : Controller
         var result = new List<AccountResponse>();
         /*return Ok(_mapper.Map<List<AccountResponse>>(result));*/
         return Ok(result);
+    }
+
+    [Authorize]
+    [HttpPost]
+    [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+    public async Task<ActionResult<int>> AddAccount([FromBody] AddAccountRequest accountRequest)
+    {
+        _logger.LogInformation($"Controller: Add an account: LeadId:{accountRequest.LeadId}, TradingCurrency:{accountRequest.CryptoCurrencie}");
+        /*var claim = this.GetClaims();
+        var result = await _accountService.AddAccount(_mapper.Map<AccountDto>(accountRequest), claim);*/
+        var result = 1;
+        return Created("", result);
     }
 }
