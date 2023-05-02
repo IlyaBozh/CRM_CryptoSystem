@@ -39,5 +39,18 @@ public class AccountsController : Controller
             return Ok(result);
     }
 
-
+    [Authorize]
+    [HttpGet("/leads/{leadId}/accounts")]
+    [ProducesResponseType(typeof(AccountResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
+    public async Task<ActionResult<List<AccountResponse>>> GetAllAccountsByLeadId(int leadId)
+    {
+        _logger.LogInformation($"Controller: Get all accounts by lead id {leadId}");
+       /* var claim = this.GetClaims();
+        var result = await _accountService.GetAllAccountsByLeadId(leadId, claim);*/
+        var result = new List<AccountResponse>();
+        /*return Ok(_mapper.Map<List<AccountResponse>>(result));*/
+        return Ok(result);
+    }
 }
