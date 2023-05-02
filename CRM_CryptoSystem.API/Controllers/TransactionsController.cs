@@ -1,4 +1,5 @@
 ﻿using CRM_CryptoSystem.API.Models.Requests;
+using CRM_CryptoSystem.API.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -46,5 +47,20 @@ public class TransactionsController : Controller
         var transactionId = await _transactionsService.AddWithdraw(request);
         return Created($"{this.GetShemeAndHostString()}/transactions/{transactionId}", transactionId);*/
         return Created("1", 1);
+    }
+
+    [Authorize]
+    [HttpGet("{transactionId}")]
+    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
+    public async Task<ActionResult<TransactionResponse>> GetTransactionById(int transactionId)
+    {
+        _logger.LogInformation("Controllers: Get transaction by id");
+/*        var claims = this.GetClaims();
+        var transaction = await _transactionsService.GetTransactionById(transactionId);*/
+        var transaction = new TransactionResponse();
+        return Ok(transaction);
     }
 }
