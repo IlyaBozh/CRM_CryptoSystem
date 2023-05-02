@@ -63,4 +63,19 @@ public class TransactionsController : Controller
         var transaction = new TransactionResponse();
         return Ok(transaction);
     }
+
+    [Authorize]
+    [HttpGet("/byAccountId{accountId}")]
+    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
+    public async Task<ActionResult<List<TransactionResponse>>> GetTransactionsByAccountId(int accountId)
+    {
+        _logger.LogInformation("Controllers: Get transaction by account id");
+/*        var claims = this.GetClaims();
+        var transactions = await _transactionsService.GetTransactionsByAccountId(accountId);*/
+        var transactions = new List<TransactionResponse>();
+        return Json(transactions);
+    }
 }
