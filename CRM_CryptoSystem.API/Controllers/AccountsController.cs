@@ -85,4 +85,17 @@ public class AccountsController : Controller
        /* await _accountService.UpdateAccount(_mapper.Map<AccountDto>(accountRequest), id, claim);*/
         return NoContent();
     }
+
+    [Authorize]
+    [HttpDelete("{id}")]
+    [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
+    public async Task<ActionResult> DeleteAccount(int id)
+    {
+        _logger.LogInformation($"Controller: Delete an account by id: {id}");
+/*        var claim = this.GetClaims();
+        await _accountService.DeleteAccount(id, claim);*/
+        return NoContent();
+    }
 }
