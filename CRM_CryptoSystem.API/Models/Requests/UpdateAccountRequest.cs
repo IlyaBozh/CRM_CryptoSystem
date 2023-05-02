@@ -2,9 +2,7 @@
 
 namespace CRM_CryptoSystem.API.Models.Requests;
 
-public class AddAccountRequest
+public class UpdateAccountRequest
 {
-    public CryptoCurrencies CryptoCurrencie { get; set; }
-    public int LeadId { get; set; }
     public AccountStatus AccountStatus { get; set; }
 }
