@@ -69,4 +69,20 @@ public class AccountsController : Controller
         var result = 1;
         return Created("", result);
     }
+
+    [Authorize]
+    [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
+    public async Task<ActionResult> UpdateAccount([FromBody] UpdateAccountRequest accountRequest, int id)
+    {
+        _logger.LogInformation($"Controller: Update an account by id: {id}, AccountStatus {accountRequest.AccountStatus}");
+        /*var claim = this.GetClaims();*/
+       /* await _accountService.UpdateAccount(_mapper.Map<AccountDto>(accountRequest), id, claim);*/
+        return NoContent();
+    }
 }
