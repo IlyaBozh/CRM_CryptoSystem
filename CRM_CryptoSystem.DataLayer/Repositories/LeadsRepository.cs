@@ -115,8 +115,21 @@ public class LeadsRepository : BaseRepository, ILeadsRepository
         return lead;
     }
 
-    public Task Update(LeadDto leadDto)
+    public async Task Update(LeadDto leadDto)
     {
-        throw new NotImplementedException();
+        _logger.LogInformation($"Data Layer: update lead by id {leadDto.Id}");
+
+        await _connectionString.QueryFirstOrDefaultAsync(
+            StoredProcedures.Lead_Update,
+            param: new
+            {
+                leadDto.Id,
+                leadDto.FirstName,
+                leadDto.LastName,
+                leadDto.Patronymic,
+                leadDto.Birthday,
+                leadDto.Phone
+            },
+            commandType: System.Data.CommandType.StoredProcedure);
     }
 }
