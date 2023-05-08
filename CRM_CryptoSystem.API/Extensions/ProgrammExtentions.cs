@@ -1,6 +1,6 @@
-﻿namespace CRM_CryptoSystem.API.Extensions
+﻿namespace CRM_CryptoSystem.API.Extensions;
+
+public static class ProgrammExtentions
 {
-    public class ProgrammExtentions
-    {
-    }
+
 }
