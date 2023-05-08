@@ -10,6 +10,6 @@
     [Role]             TINYINT               NOT NULL,
     [Password]         NCHAR (255)           NOT NULL,
     [RegistrationDate] DATETIME              NOT NULL,
-    [isDeleted]        BIT DEFAULT 0         NOT NULL
+    [IsDeleted]        BIT DEFAULT 0         NOT NULL
 );
 
