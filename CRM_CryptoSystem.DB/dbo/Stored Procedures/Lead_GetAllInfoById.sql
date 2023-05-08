@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[Lead_GetAllInfoByLeadId]
+﻿CREATE PROCEDURE [dbo].[Lead_GetAllInfoById]
 	@Id int
 AS
 BEGIN
