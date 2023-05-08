@@ -1,6 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[Lead_GetAll]
 
 AS
+BEGIN
 	SELECT 
 			Id, 
 			FirstName, 
@@ -9,9 +10,7 @@ AS
 			Birthday, 
 			Email, 
 			Phone,
-			Passport, 
-			City, 
-			[Address], 
+			[Login], 
 			[Role], 
 			RegistrationDate
 	FROM dbo.[Lead]
