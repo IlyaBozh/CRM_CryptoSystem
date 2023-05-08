@@ -57,19 +57,44 @@ public class LeadsRepository : BaseRepository, ILeadsRepository
         }
     }
 
-    public Task<List<LeadDto>> GetAll()
+    public async Task<List<LeadDto>> GetAll()
     {
-        throw new NotImplementedException();
+        _logger.LogInformation($"Data Layer: Get all leads");
+        var leads =  _connectionString.Query<LeadDto>(
+            StoredProcedures.Lead_GetAll,
+            commandType: System.Data.CommandType.StoredProcedure).ToList();
+
+        return leads;
     }
 
-    public Task<LeadDto> GetAllInfoById(int id)
+    public async Task<LeadDto> GetAllInfoById(int id)
     {
-        throw new NotImplementedException();
+        var lead = _connectionString.Query<LeadDto, AccountDto, LeadDto>(
+            StoredProcedures.Lead_GetAllInfoById, 
+            (lead, account) =>
+            {
+                lead.Accounts.Add( account );
+                return lead;
+            },
+            splitOn: "Id",
+            param: new {id},
+            commandType: System.Data.CommandType.StoredProcedure).FirstOrDefault();
+
+        _logger.LogInformation($"Data Layer: Get by id {id}, {lead.FirstName}, {lead.LastName}, {lead.Patronymic}");
+
+        return lead;
     }
 
-    public Task<LeadDto> GetByEmail(string email)
+    public async Task<LeadDto> GetByEmail(string email)
     {
-        throw new NotImplementedException();
+        _logger.LogInformation($"Data Layer: Get by email {email}");
+
+        var lead = await _connectionString.QueryFirstOrDefaultAsync<LeadDto>(
+            StoredProcedures.Lead_GetByEmail,
+            param: new { email },
+            commandType: System.Data.CommandType.StoredProcedure);
+
+        return lead;
     }
 
     public Task<LeadDto> GetById(int id)
