@@ -1,7 +1,7 @@
 ﻿
 namespace CRM_CryptoSystem.DataLayer;
 
-public class StoredProcedures
+public static class StoredProcedures
 {
     public const string Lead_Add = "Lead_Add";
     public const string Lead_Delete = "Lead_Delete";
