@@ -97,9 +97,22 @@ public class LeadsRepository : BaseRepository, ILeadsRepository
         return lead;
     }
 
-    public Task<LeadDto> GetById(int id)
+    public async Task<LeadDto> GetById(int id)
     {
-        throw new NotImplementedException();
+        var lead = (await _connectionString.QueryAsync<LeadDto, AccountDto, LeadDto>(
+            StoredProcedures.Lead_GetById,
+            (lead, account) =>
+            {
+                lead.Accounts.Add(account);
+                return lead;
+            },
+            splitOn: "Id",
+            param: new { Id = id },
+            commandType: System.Data.CommandType.StoredProcedure)).FirstOrDefault();
+
+        _logger.LogInformation($"Data Layer: Get by id {id}, {lead.FirstName}, {lead.LastName}, {lead.Patronymic}");
+
+        return lead;
     }
 
     public Task Update(LeadDto leadDto)
