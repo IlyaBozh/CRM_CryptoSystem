@@ -11,14 +11,14 @@
 AS
 BEGIN
 
-UPDATE dbo.[Lead]
-SET FirstName = @FirstName,
-	LastName = @LastName,
-	Patronymic = @Patronymic,
-	Birthday = @Birthday,
-	Phone = @Phone
+	UPDATE dbo.[Lead]
+	SET FirstName = @FirstName,
+		LastName = @LastName,
+		Patronymic = @Patronymic,
+		Birthday = @Birthday,
+		Phone = @Phone
 
-WHERE Id = @Id
+	WHERE Id = @Id
 
 END
  

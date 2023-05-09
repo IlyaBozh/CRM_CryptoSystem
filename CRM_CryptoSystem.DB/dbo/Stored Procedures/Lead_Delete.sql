@@ -5,8 +5,8 @@
 AS
 BEGIN
 
-UPDATE dbo.[Lead]
-SET isDeleted = @IsDeleted
-WHERE Id = @Id
+	UPDATE dbo.[Lead]
+	SET isDeleted = @IsDeleted
+	WHERE Id = @Id
 
 END
