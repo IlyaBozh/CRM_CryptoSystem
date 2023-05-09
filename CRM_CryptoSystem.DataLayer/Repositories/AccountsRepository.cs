@@ -49,17 +49,24 @@ public class AccountsRepository : BaseRepository, IAccountsRepository
     public async Task<List<AccountDto>> GetAll()
     {
         _logger.LogInformation($"Data Layer: Get all accounts");
-        var accounts = _connectionString.Query<AccountDto>(
+        var accounts = (await _connectionString.QueryAsync<AccountDto>(
             StoredProcedures.Lead_GetAll,
-            commandType: System.Data.CommandType.StoredProcedure)
+            commandType: System.Data.CommandType.StoredProcedure))
             .ToList();
 
         return accounts;
     }
 
-    public Task<List<AccountDto>> GetAllByLeadId(int leadId)
+    public async Task<List<AccountDto>> GetAllByLeadId(int leadId)
     {
-        throw new NotImplementedException();
+        _logger.LogInformation($"Data Layer: Get all accounts by lead id: {leadId}");
+
+        var accounts = ( await _connectionString.QueryAsync<AccountDto>(
+            StoredProcedures.Account_GetAllAccountsByLeadId,
+            param: new { leadId },
+            commandType: System.Data.CommandType.StoredProcedure)) .ToList();
+
+        return accounts;
     }
 
     public Task<AccountDto> GetById(int id)

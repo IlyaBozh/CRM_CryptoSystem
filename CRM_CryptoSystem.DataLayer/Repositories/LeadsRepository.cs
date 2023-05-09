@@ -53,16 +53,17 @@ public class LeadsRepository : BaseRepository, ILeadsRepository
     public async Task<List<LeadDto>> GetAll()
     {
         _logger.LogInformation($"Data Layer: Get all leads");
-        var leads =  _connectionString.Query<LeadDto>(
+        var leads =  (await _connectionString.QueryAsync<LeadDto>(
             StoredProcedures.Lead_GetAll,
-            commandType: System.Data.CommandType.StoredProcedure).ToList();
+            commandType: System.Data.CommandType.StoredProcedure))
+            .ToList();
 
         return leads;
     }
 
     public async Task<LeadDto> GetAllInfoById(int id)
     {
-        var lead = _connectionString.Query<LeadDto, AccountDto, LeadDto>(
+        var lead = (await _connectionString.QueryAsync<LeadDto, AccountDto, LeadDto>(
             StoredProcedures.Lead_GetAllInfoById, 
             (lead, account) =>
             {
@@ -71,7 +72,7 @@ public class LeadsRepository : BaseRepository, ILeadsRepository
             },
             splitOn: "Id",
             param: new {id},
-            commandType: System.Data.CommandType.StoredProcedure).FirstOrDefault();
+            commandType: System.Data.CommandType.StoredProcedure)).FirstOrDefault();
 
         _logger.LogInformation($"Data Layer: Get by id {id}, {lead.FirstName}, {lead.LastName}, {lead.Patronymic}");
 
