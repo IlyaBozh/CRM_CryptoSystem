@@ -4,6 +4,7 @@ using CRM_CryptoSystem.DataLayer.Models;
 using Dapper;
 using Microsoft.Extensions.Logging;
 using System.Data;
+using System.Security.Principal;
 
 namespace CRM_CryptoSystem.DataLayer.Repositories;
 
@@ -69,9 +70,16 @@ public class AccountsRepository : BaseRepository, IAccountsRepository
         return accounts;
     }
 
-    public Task<AccountDto> GetById(int id)
+    public async Task<AccountDto> GetById(int id)
     {
-        throw new NotImplementedException();
+        var account = (await _connectionString.QueryAsync(
+            StoredProcedures.Account_GetById,
+            param: new { id },
+            commandType: System.Data.CommandType.StoredProcedure)).FirstOrDefault();
+
+        _logger.LogInformation($"Data Layer: Get account by id: {account.LeadId}, {account.Currency}, {account.Status}");
+
+        return account;
     }
 
     public Task Update(AccountDto accountDto, int id)
