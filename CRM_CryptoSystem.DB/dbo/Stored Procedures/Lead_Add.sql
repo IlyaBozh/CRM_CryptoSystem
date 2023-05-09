@@ -10,28 +10,28 @@
 	@Password nvarchar(255)
 AS
 BEGIN
-INSERT INTO dbo.[Lead](
-	FirstName,
-	LastName,
-	Patronymic,
-	Birthday,
-	Email,
-	Phone,
-	[Login],
-	[Role],
-	[Password],
-	RegistrationDate)
-VALUES(
-	@FirstName,
-	@LastName,
-	@Patronymic,
-	@Birthday,
-	@Email,
-	@Phone,
-	@Login,
-	@Role,
-	@Password,
-	GETDATE())
+	INSERT INTO dbo.[Lead](
+		FirstName,
+		LastName,
+		Patronymic,
+		Birthday,
+		Email,
+		Phone,
+		[Login],
+		[Role],
+		[Password],
+		RegistrationDate)
+	VALUES(
+		@FirstName,
+		@LastName,
+		@Patronymic,
+		@Birthday,
+		@Email,
+		@Phone,
+		@Login,
+		@Role,
+		@Password,
+		GETDATE())
 
-SELECT @@IDENTITY
+	SELECT @@IDENTITY
 END

@@ -3,7 +3,7 @@
 AS
 BEGIN
 
-SELECT
+	SELECT
 	
 		L.Id, 
 		L.FirstName, 
