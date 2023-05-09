@@ -33,9 +33,17 @@ public class AccountsRepository : BaseRepository, IAccountsRepository
         return id;
     }
 
-    public Task DeleteOrRestore(int id, bool isDeleted)
+    public async Task DeleteOrRestore(int id, bool isDeleted)
     {
-        throw new NotImplementedException();
+        if (isDeleted)
+            _logger.LogInformation($"Data Layer: Delete account {id}");
+        else
+            _logger.LogInformation($"Data Layer: Restore account {id}");
+        
+        await _connectionString.ExecuteAsync(
+                StoredProcedures.Account_Delete,
+                param: new { id, isDeleted },
+                commandType: System.Data.CommandType.StoredProcedure);
     }
 
     public Task<List<AccountDto>> GetAll()
