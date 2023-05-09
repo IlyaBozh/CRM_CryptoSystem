@@ -82,8 +82,13 @@ public class AccountsRepository : BaseRepository, IAccountsRepository
         return account;
     }
 
-    public Task Update(AccountDto accountDto, int id)
+    public async Task Update(AccountDto accountDto, int id)
     {
-        throw new NotImplementedException();
+        _logger.LogInformation($"Data Layer: Get account by id {id}: {accountDto.Status}");
+
+        await _connectionString.ExecuteAsync(
+            StoredProcedures.Account_Update,
+            param: new { id, accountDto.Status },
+            commandType: System.Data.CommandType.StoredProcedure);
     }
 }
