@@ -1,7 +1,4 @@
-﻿
-
-using CRM_CryptoSystem.DataLayer.Enums;
-using System.Data;
+﻿using CRM_CryptoSystem.DataLayer.Enums;
 
 namespace CRM_CryptoSystem.DataLayer.Models;
 
