@@ -1,6 +1,7 @@
 ﻿
 using CRM_CryptoSystem.DataLayer.Interfaces;
 using CRM_CryptoSystem.DataLayer.Models;
+using Dapper;
 using Microsoft.Extensions.Logging;
 using System.Data;
 
@@ -15,9 +16,21 @@ public class AccountsRepository : BaseRepository, IAccountsRepository
         _logger = logger;
     }
 
-    public Task<int> Add(AccountDto accountDto)
+    public async Task<int> Add(AccountDto accountDto)
     {
-        throw new NotImplementedException();
+        _logger.LogInformation($"Data Layer: Add account: {accountDto.LeadId}, {accountDto.Currency}, {accountDto.Status}");
+
+        var id = await _connectionString.QuerySingleAsync<int>(
+            StoredProcedures.Account_Add,
+            param: new
+            {
+                accountDto.LeadId,
+                accountDto.Currency,
+                accountDto.Status
+            },
+            commandType: System.Data.CommandType.StoredProcedure);
+
+        return id;
     }
 
     public Task DeleteOrRestore(int id, bool isDeleted)
