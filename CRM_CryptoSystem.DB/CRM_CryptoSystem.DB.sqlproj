@@ -73,6 +73,12 @@
     <Build Include="dbo\Stored Procedures\Lead_GetById.sql" />
     <Build Include="dbo\Stored Procedures\Lead_GetByEmail.sql" />
     <Build Include="dbo\Stored Procedures\Lead_Update.sql" />
+    <Build Include="dbo\Stored Procedures\Account_Add.sql" />
+    <Build Include="dbo\Stored Procedures\Account_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\Account_GetAll.sql" />
+    <Build Include="dbo\Stored Procedures\Account_GetAllAccountsByLeadId.sql" />
+    <Build Include="dbo\Stored Procedures\Account_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\Account_Update.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="CRM_CryptoSystem.DB.refactorlog" />
