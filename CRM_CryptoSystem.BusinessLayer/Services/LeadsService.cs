@@ -1,4 +1,4 @@
-﻿using CRM_CryptoSystem.BusinessLayer.Exeptions;
+﻿using CRM_CryptoSystem.BusinessLayer.Exceptions;
 using CRM_CryptoSystem.BusinessLayer.Infrastructure;
 using CRM_CryptoSystem.BusinessLayer.Models;
 using CRM_CryptoSystem.BusinessLayer.Services.Interfaces;
@@ -83,9 +83,10 @@ public class LeadsService : ILeadsService
         await _leadsRepository.DeleteOrRestore(id, isDeleted);
     }
 
-    public Task<List<LeadDto>> GetAll()
+    public async Task<List<LeadDto>> GetAll()
     {
-        throw new NotImplementedException();
+        _logger.LogInformation($"Business layer: Database query for getting all leads");
+        return await _leadsRepository.GetAll();
     }
 
     public Task<LeadDto> GetAllInfoById(int id, ClaimModel claims)

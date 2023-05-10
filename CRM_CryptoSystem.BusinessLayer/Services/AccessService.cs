@@ -1,8 +1,8 @@
 ﻿
 using CRM_CryptoSystem.BusinessLayer.Exceptions;
+using CRM_CryptoSystem.BusinessLayer.Models;
 using CRM_CryptoSystem.DataLayer.Enums;
 using Microsoft.Extensions.Logging;
-using System.Security.Claims;
 
 namespace CRM_CryptoSystem.BusinessLayer.Services;
 
@@ -15,7 +15,7 @@ public class AccessService
         _logger = logger;
     }
 
-    public static void CheckAccessForLeadAndManager(int id, ClaimModel model)
+    public static void CheckAccessForLeadAndManager(int id, ClaimModel claims)
     {
         if (claims is not null && claims.Id != id &&
             claims.Role != Role.Admin)

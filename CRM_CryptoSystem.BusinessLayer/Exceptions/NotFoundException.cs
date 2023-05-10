@@ -1,5 +1,4 @@
-﻿
-namespace CRM_CryptoSystem.BusinessLayer.Exeptions;
+﻿namespace CRM_CryptoSystem.BusinessLayer.Exceptions;
 
 public class NotFoundException : Exception
 {
