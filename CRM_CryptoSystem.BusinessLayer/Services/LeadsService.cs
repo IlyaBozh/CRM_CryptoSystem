@@ -104,9 +104,16 @@ public class LeadsService : ILeadsService
         return lead;
     }
 
-    public Task<LeadDto?> GetByEmail(string email)
+    public async Task<LeadDto?> GetByEmail(string email)
     {
-        throw new NotImplementedException();
+        _logger.LogInformation($"Business layer: Database query for getting lead by email {email}");
+
+        var lead = await _leadsRepository.GetByEmail(email);
+
+        if(lead is null)
+            throw new NotFoundException($"Lead with email '{email}' was not found");
+
+        return lead;
     }
 
     public Task<LeadDto> GetById(int id, ClaimModel claims)
