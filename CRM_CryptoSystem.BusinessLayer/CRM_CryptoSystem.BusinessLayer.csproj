@@ -10,4 +10,8 @@
     <ProjectReference Include="..\CRM_CryptoSystem.DataLayer\CRM_CryptoSystem.DataLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MassTransit" Version="8.0.15" />
+  </ItemGroup>
+
 </Project>
