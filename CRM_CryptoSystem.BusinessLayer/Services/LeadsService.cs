@@ -89,9 +89,19 @@ public class LeadsService : ILeadsService
         return await _leadsRepository.GetAll();
     }
 
-    public Task<LeadDto> GetAllInfoById(int id, ClaimModel claims)
+    public async Task<LeadDto> GetAllInfoById(int id, ClaimModel claims)
     {
-        throw new NotImplementedException();
+        var lead = await _leadsRepository.GetAllInfoById(id);
+
+        if (lead is null)
+            throw new NotFoundException("Lead with this id was not found");
+
+        _logger.LogInformation($"Business layer: Database query for getting lead by id {id}, {lead.FirstName}, {lead.LastName}, {lead.Patronymic}, {lead.Birthday}, {lead.Phone}, " +
+            $"{lead.Email}, {lead.Login}");
+
+        AccessService.CheckAccessForLeadAndManager(lead.Id, claims);
+
+        return lead;
     }
 
     public Task<LeadDto?> GetByEmail(string email)
