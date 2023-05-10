@@ -126,14 +126,28 @@ public class LeadsService : ILeadsService
         _logger.LogInformation($"Business layer: Database query for getting lead by id {id}, {lead.FirstName}, {lead.LastName}, {lead.Patronymic}, {lead.Birthday}, {lead.Phone}, " +
             $"{lead.Email}, {lead.Login}");
 
-        AccessService.CheckAccessForLeadAndManager(lead.Id, claims);
+        //AccessService.CheckAccessForLeadAndManager(lead.Id, claims);
 
         return lead;
     }
 
-    public Task Update(LeadDto lead, int id, ClaimModel claims)
+    public async Task Update(LeadDto newLead, int id, ClaimModel claims)
     {
-        throw new NotImplementedException();
+        _logger.LogInformation($"Business layer: Database query for updating lead {id}, new data: {newLead.FirstName}, {newLead.LastName}, {newLead.Patronymic}, {newLead.Birthday}, {newLead.Phone}");
+
+        var lead = await _leadsRepository.GetById(id);
+
+        if (lead is null || newLead is null)
+            throw new NotFoundException($"Lead with id '{lead.Id}' was not found");
+
+        lead.Id = id;
+        lead.FirstName = newLead.FirstName;
+        lead.LastName = newLead.LastName;
+        lead.Patronymic = newLead.Patronymic;
+        lead.Birthday = newLead.Birthday;
+        lead.Phone = newLead.Phone;
+
+        await _leadsRepository.Update(lead);
     }
 
     private async Task<bool> CheckEmailForUniqueness(string email) => await _leadsRepository.GetByEmail(email) == default;

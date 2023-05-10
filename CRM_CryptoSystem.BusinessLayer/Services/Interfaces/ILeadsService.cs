@@ -12,5 +12,5 @@ public interface ILeadsService
     Task<LeadDto> GetAllInfoById(int id, ClaimModel claims);
     Task<LeadDto?> GetByEmail(string email);
     Task<LeadDto> GetById(int id, ClaimModel claims);
-    Task Update(LeadDto lead, int id, ClaimModel claims);
+    Task Update(LeadDto newLead, int id, ClaimModel claims);
 }
