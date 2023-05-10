@@ -53,9 +53,34 @@ public class LeadsService : ILeadsService
         return leadId;
     }
 
-    public Task<LeadDto> DeleteOrRestore(int id, bool isDeleted, ClaimModel claims)
+    public async Task DeleteOrRestore(int id, bool isDeleted, ClaimModel claims)
     {
-        throw new NotImplementedException();
+        var lead = await _leadsRepository.GetById(id);
+
+        if(isDeleted)
+        {
+            _logger.LogInformation($"Business layer: Database query for deleting lead {id}, {lead.FirstName}, {lead.LastName}, {lead.Patronymic}, {lead.Birthday}, {lead.Phone}, " +
+            $"{lead.Email}, {lead.Login}");
+        }
+        else
+        {
+            _logger.LogInformation($"Business layer: Database query for restoring lead {id}, {lead.FirstName}, {lead.LastName}, {lead.Patronymic}, {lead.Birthday}, {lead.Phone}, " +
+            $"{lead.Email}, {lead.Login}");
+        }
+
+        if (lead is null)
+            throw new NotFoundException($"Lead with id '{id}' was not found");
+
+        AccessService.CheckAccessForLeadAndManager(lead.Id, claims);
+
+        var accounts = await _accountsRepository.GetAllByLeadId(id);
+
+        foreach(var account in accounts)
+        {
+            await _accountsRepository.DeleteOrRestore(account.Id, isDeleted);
+        }
+
+        await _leadsRepository.DeleteOrRestore(id, isDeleted);
     }
 
     public Task<List<LeadDto>> GetAll()

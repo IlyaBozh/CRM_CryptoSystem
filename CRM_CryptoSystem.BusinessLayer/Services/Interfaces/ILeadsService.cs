@@ -7,7 +7,7 @@ namespace CRM_CryptoSystem.BusinessLayer.Services.Interfaces;
 public interface ILeadsService
 {
     Task<int> Add(LeadDto lead);
-    Task<LeadDto> DeleteOrRestore(int id, bool isDeleted, ClaimModel claims);
+    Task DeleteOrRestore(int id, bool isDeleted, ClaimModel claims);
     Task<List<LeadDto>> GetAll();
     Task<LeadDto> GetAllInfoById(int id, ClaimModel claims);
     Task<LeadDto?> GetByEmail(string email);
