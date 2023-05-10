@@ -116,9 +116,19 @@ public class LeadsService : ILeadsService
         return lead;
     }
 
-    public Task<LeadDto> GetById(int id, ClaimModel claims)
+    public async Task<LeadDto> GetById(int id, ClaimModel claims)
     {
-        throw new NotImplementedException();
+        var lead = await _leadsRepository.GetById(id);
+
+        if (lead is null || lead.IsDeleted)
+            throw new NotFoundException("Lead with this id was not found");
+
+        _logger.LogInformation($"Business layer: Database query for getting lead by id {id}, {lead.FirstName}, {lead.LastName}, {lead.Patronymic}, {lead.Birthday}, {lead.Phone}, " +
+            $"{lead.Email}, {lead.Login}");
+
+        AccessService.CheckAccessForLeadAndManager(lead.Id, claims);
+
+        return lead;
     }
 
     public Task Update(LeadDto lead, int id, ClaimModel claims)
