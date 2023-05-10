@@ -2,5 +2,5 @@
 
 public enum CryptoCurrencies
 {
-
+    USD = 1
 }

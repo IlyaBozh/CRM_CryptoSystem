@@ -1,5 +1,8 @@
-﻿using CRM_CryptoSystem.BusinessLayer.Models;
+﻿using CRM_CryptoSystem.BusinessLayer.Exeptions;
+using CRM_CryptoSystem.BusinessLayer.Infrastructure;
+using CRM_CryptoSystem.BusinessLayer.Models;
 using CRM_CryptoSystem.BusinessLayer.Services.Interfaces;
+using CRM_CryptoSystem.DataLayer.Enums;
 using CRM_CryptoSystem.DataLayer.Interfaces;
 using CRM_CryptoSystem.DataLayer.Models;
 using Microsoft.Extensions.Logging;
@@ -11,7 +14,6 @@ public class LeadsService : ILeadsService
     private readonly ILeadsRepository _leadsRepository;
     private readonly IAccountsRepository _accountsRepository;
     private readonly ILogger<LeadsService> _logger;
-    /*private readonly IMessageProducer _producer*/
 
     public LeadsService(ILeadsRepository leadsRepository, IAccountsRepository accountsRepository, ILogger<LeadsService> logger)
     {
@@ -20,9 +22,35 @@ public class LeadsService : ILeadsService
         _logger = logger;
     }
 
-    public Task<int> Add(LeadDto lead)
+    public async Task<int> Add(LeadDto lead)
     {
-        throw new NotImplementedException();
+        _logger.LogInformation($"Business layer: Database query for adding lead {lead.FirstName}, {lead.LastName}, {lead.Patronymic}, {lead.Birthday}, {lead.Phone}, " +
+            $"{lead.Email}, {lead.Login}");
+
+        bool isUniqueEmail = await CheckEmailForUniqueness(lead.Email);
+
+        if (!isUniqueEmail)
+        {
+            throw new NotUniqueEmailExeption($"This email is registered already");
+        }
+
+        lead.Password = PasswordHash.HashPassword(lead.Password);
+        lead.Role = Role.Lead;
+
+        var leadId = await _leadsRepository.Add(lead);
+
+        AccountDto account= new AccountDto()
+        {
+            LeadId = leadId,
+            Currency = CryptoCurrencies.USD,
+            Status = AccountStatus.Active
+        };
+
+        var accountId = await _accountsRepository.Add(account);
+
+        _logger.LogInformation($"Business layer: Database query for adding account Id: {accountId} by LeadId {lead.Id}");
+
+        return leadId;
     }
 
     public Task<LeadDto> DeleteOrRestore(int id, bool isDeleted, ClaimModel claims)
