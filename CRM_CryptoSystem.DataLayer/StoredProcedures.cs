@@ -19,4 +19,7 @@ public static class StoredProcedures
     public const string Account_GetAllAccountsByLeadId = "Account_GetAllAccountsByLeadId";
     public const string Account_GetById = "Account_GetById";
     public const string Account_Update = "Account_Update";
+
+    public const string Admin_Add = "Admin_Add";
+    public const string Admin_GetAdminByEmail = "Admin_GetAdminByEmail";
 }

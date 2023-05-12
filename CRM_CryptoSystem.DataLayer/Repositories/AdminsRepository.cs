@@ -1,6 +1,7 @@
 ﻿
 using CRM_CryptoSystem.DataLayer.Interfaces;
 using CRM_CryptoSystem.DataLayer.Models;
+using Dapper;
 using Microsoft.Extensions.Logging;
 using System.Data;
 
@@ -14,9 +15,19 @@ public class AdminsRepository : BaseRepository, IAdminsRepository
         _logger = logger;
     }
 
-    public Task<int> AddAdmin(AdminDto admin)
+    public async Task<int> AddAdmin(AdminDto admin)
     {
-        throw new NotImplementedException();
+        _logger.LogInformation($"Data Layer: add admin {admin.Email}");
+        var id = await _connectionString.QuerySingleAsync<int>(
+            StoredProcedures.Admin_Add,
+            param: new
+            {
+                admin.Password,
+                admin.Email
+            },
+            commandType: CommandType.StoredProcedure);
+
+        return id;
     }
 
     public Task<AdminDto> GetAdminByEmail(string email)
