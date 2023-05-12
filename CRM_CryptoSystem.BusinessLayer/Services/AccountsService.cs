@@ -1,8 +1,11 @@
 ﻿
+using CRM_CryptoSystem.BusinessLayer.Exceptions;
 using CRM_CryptoSystem.BusinessLayer.Models;
 using CRM_CryptoSystem.BusinessLayer.Services.Interfaces;
+using CRM_CryptoSystem.DataLayer.Enums;
 using CRM_CryptoSystem.DataLayer.Interfaces;
 using CRM_CryptoSystem.DataLayer.Models;
+using CRM_CryptoSystem.DataLayer.Repositories;
 using Microsoft.Extensions.Logging;
 
 namespace CRM_CryptoSystem.BusinessLayer.Services;
@@ -20,9 +23,32 @@ public class AccountsService : IAccountsService
         _logger = logger;
     }
 
-    public Task<int> Add(AccountDto accountDTO, ClaimModel claim)
+    public async Task<int> Add(AccountDto accountDTO, ClaimModel claim)
     {
-        throw new NotImplementedException();
+        _logger.LogInformation($"Business layer: Database query for adding account {accountDTO.LeadId}, {accountDTO.Currency}, {accountDTO.Status}");
+        AccessService.CheckAccessForLeadAndManager(accountDTO.Id, claim);
+
+        var lead = await _leadsRepository.GetById(accountDTO.LeadId);
+
+        if (lead.Role == Role.Lead)
+        {
+            if (accountDTO.Currency != CryptoCurrencies.USD)
+            {
+                throw new RegularAccountRestrictionException("Regular lead cannot have any other account except RUB or USD");
+            }
+        }
+
+        List<AccountDto> accountsOfLead = await _accountsRepository.GetAllByLeadId(accountDTO.LeadId);
+        var isRepeated = accountsOfLead.Any(a => a.Currency == accountDTO.Currency);
+
+        if (isRepeated)
+        {
+            throw new RepeatCurrencyException($"Already have an account with this currency");
+        }
+
+        var accountId = await _accountsRepository.Add(accountDTO);
+        
+        return accountId;
     }
 
     public Task DeleteOrRestore(int id, ClaimModel claim)
