@@ -22,4 +22,10 @@ public static class StringExtension
         maskedNumber += theLastTwoNumbers;
         return maskedNumber;
     }
+
+    public static string MaskTheLastFive(this string original)
+    {
+        string maskedData = original.Remove(original.Length - 5, 5);
+        return $"{maskedData} *****";
+    }
 }
