@@ -1,7 +1,12 @@
 ﻿using CRM_CryptoSystem.BusinessLayer.Infrastructure;
+using CRM_CryptoSystem.BusinessLayer.Services.Interfaces;
+using CRM_CryptoSystem.BusinessLayer.Services;
+using CRM_CryptoSystem.DataLayer.Interfaces;
+using CRM_CryptoSystem.DataLayer.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.ComponentModel.Design;
 
 namespace CRM_CryptoSystem.API.Extensions;
 
@@ -55,5 +60,21 @@ public static class ProgrammExtentions
                     ValidateIssuerSigningKey = true,
                 };
             });
+    }
+
+    public static void AddService(this IServiceCollection services)
+    {
+        services.AddScoped<IAccountsRepository, AccountsRepository>();
+        services.AddScoped<IAccountsService, AccountsService>();
+        services.AddScoped<ILeadsRepository, LeadsRepository>();
+        services.AddScoped<ILeadsService, LeadsService>();
+        services.AddScoped<IAdminsRepository, AdminsRepository>();
+/*        services.AddScoped<IAdminsService, AdminsService>();*/
+        services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IAccountsRepository, AccountsRepository>();
+        services.AddScoped<IAccountsService, AccountsService>();
+/*        services.AddScoped<IHttpService, TransactionStoreClient>();
+        services.AddScoped<ITransactionsService, TransactionsService>();
+        services.AddScoped<IMessageProducer, MessageProducer>();*/
     }
 }
