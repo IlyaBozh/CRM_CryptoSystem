@@ -13,4 +13,13 @@ public static class StringExtension
         
         return output;
     }
+
+    public static string MaskNumber(this string original)
+    {
+        string firstFourNumbers = original.Substring(0, 4);
+        string theLastTwoNumbers = original.Substring(9, 2);
+        string maskedNumber = firstFourNumbers.PadRight(9, '*');
+        maskedNumber += theLastTwoNumbers;
+        return maskedNumber;
+    }
 }
