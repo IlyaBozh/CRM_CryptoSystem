@@ -3,10 +3,13 @@ using CRM_CryptoSystem.BusinessLayer.Services.Interfaces;
 using CRM_CryptoSystem.BusinessLayer.Services;
 using CRM_CryptoSystem.DataLayer.Interfaces;
 using CRM_CryptoSystem.DataLayer.Repositories;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.ComponentModel.Design;
+using CRM_CryptoSystem.API.Models.Requests;
+using CRM_CryptoSystem.API.Validators;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 namespace CRM_CryptoSystem.API.Extensions;
 
@@ -76,5 +79,15 @@ public static class ProgrammExtentions
 /*        services.AddScoped<IHttpService, TransactionStoreClient>();
         services.AddScoped<ITransactionsService, TransactionsService>();
         services.AddScoped<IMessageProducer, MessageProducer>();*/
+    }
+
+    public static void AddFluentValidation(this IServiceCollection services)
+    {
+        services.AddFluentValidationAutoValidation(config => config.DisableDataAnnotationsValidation = true);
+
+        services.AddScoped<IValidator<AddAccountRequest>, AddAccountValidator>();
+        services.AddScoped<IValidator<UpdateAccountRequest>, UpdateAccountValidator>();
+        services.AddScoped<IValidator<LeadRegistrationRequest>, LeadRegistrationValidator>();
+        services.AddScoped<IValidator<LeadUpdateRequest>, LeadUpdateValidator>();
     }
 }
