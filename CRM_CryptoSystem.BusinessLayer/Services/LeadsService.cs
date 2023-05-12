@@ -31,7 +31,7 @@ public class LeadsService : ILeadsService
 
         if (!isUniqueEmail)
         {
-            throw new NotUniqueEmailExeption($"This email is registered already");
+            throw new NotUniqueEmailException($"This email is registered already");
         }
 
         lead.Password = PasswordHash.HashPassword(lead.Password);
