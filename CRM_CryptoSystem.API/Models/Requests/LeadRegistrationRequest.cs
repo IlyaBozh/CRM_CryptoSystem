@@ -3,6 +3,6 @@
 public class LeadRegistrationRequest: LeadUpdateRequest
 {
     public string Email { get; set; }
-    public string Passport { get; set; }
+    public string Login { get; set; }
     public string Password { get; set; }
 }
