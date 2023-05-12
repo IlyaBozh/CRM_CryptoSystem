@@ -49,6 +49,10 @@ public class ExceptionMiddleware
         {
             await HandleExceptionAsync(httpContext, HttpStatusCode.Conflict, error.Message);
         }
+        catch (Exception error)
+        {
+            await HandleExceptionAsync(httpContext, HttpStatusCode.InternalServerError, error.StackTrace);
+        }
     }
 
     private async Task HandleExceptionAsync(HttpContext context, HttpStatusCode statusCode, string message)
