@@ -24,8 +24,8 @@ public class LeadsService : ILeadsService
 
     public async Task<int> Add(LeadDto lead)
     {
-        _logger.LogInformation($"Business layer: Database query for adding lead {lead.FirstName}, {lead.LastName}, {lead.Patronymic}, {lead.Birthday}, {lead.Phone}, " +
-            $"{lead.Email}, {lead.Login}");
+        _logger.LogInformation($"Business layer: Database query for adding lead {lead.FirstName}, {lead.LastName}, {lead.Patronymic}, {lead.Birthday}, {lead.Phone.MaskNumber()}, " +
+            $"{lead.Email.MaskEmail()}, {lead.Login}");
 
         bool isUniqueEmail = await CheckEmailForUniqueness(lead.Email);
 
@@ -59,13 +59,13 @@ public class LeadsService : ILeadsService
 
         if(isDeleted)
         {
-            _logger.LogInformation($"Business layer: Database query for deleting lead {id}, {lead.FirstName}, {lead.LastName}, {lead.Patronymic}, {lead.Birthday}, {lead.Phone}, " +
-            $"{lead.Email}, {lead.Login}");
+            _logger.LogInformation($"Business layer: Database query for deleting lead {id}, {lead.FirstName}, {lead.LastName}, {lead.Patronymic}, {lead.Birthday}, {lead.Phone.MaskNumber()}, " +
+            $"{lead.Email.MaskEmail()}, {lead.Login}");
         }
         else
         {
-            _logger.LogInformation($"Business layer: Database query for restoring lead {id}, {lead.FirstName}, {lead.LastName}, {lead.Patronymic}, {lead.Birthday}, {lead.Phone}, " +
-            $"{lead.Email}, {lead.Login}");
+            _logger.LogInformation($"Business layer: Database query for restoring lead {id}, {lead.FirstName}, {lead.LastName}, {lead.Patronymic}, {lead.Birthday}, {lead.Phone.MaskNumber()}, " +
+            $"{lead.Email.MaskEmail()}, {lead.Login}");
         }
 
         if (lead is null)
@@ -96,8 +96,8 @@ public class LeadsService : ILeadsService
         if (lead is null)
             throw new NotFoundException("Lead with this id was not found");
 
-        _logger.LogInformation($"Business layer: Database query for getting lead by id {id}, {lead.FirstName}, {lead.LastName}, {lead.Patronymic}, {lead.Birthday}, {lead.Phone}, " +
-            $"{lead.Email}, {lead.Login}");
+        _logger.LogInformation($"Business layer: Database query for getting lead by id {id}, {lead.FirstName}, {lead.LastName}, {lead.Patronymic}, {lead.Birthday}, {lead.Phone.MaskNumber()}, " +
+            $"{lead.Email.MaskEmail()}, {lead.Login}");
 
         AccessService.CheckAccessForLeadAndManager(lead.Id, claims);
 
@@ -123,8 +123,8 @@ public class LeadsService : ILeadsService
         if (lead is null || lead.IsDeleted)
             throw new NotFoundException("Lead with this id was not found");
 
-        _logger.LogInformation($"Business layer: Database query for getting lead by id {id}, {lead.FirstName}, {lead.LastName}, {lead.Patronymic}, {lead.Birthday}, {lead.Phone}, " +
-            $"{lead.Email}, {lead.Login}");
+        _logger.LogInformation($"Business layer: Database query for getting lead by id {id}, {lead.FirstName}, {lead.LastName}, {lead.Patronymic}, {lead.Birthday}, {lead.Phone.MaskNumber()}, " +
+            $"{lead.Email.MaskEmail()}, {lead.Login}");
 
         //AccessService.CheckAccessForLeadAndManager(lead.Id, claims);
 
@@ -133,7 +133,7 @@ public class LeadsService : ILeadsService
 
     public async Task Update(LeadDto newLead, int id, ClaimModel claims)
     {
-        _logger.LogInformation($"Business layer: Database query for updating lead {id}, new data: {newLead.FirstName}, {newLead.LastName}, {newLead.Patronymic}, {newLead.Birthday}, {newLead.Phone}");
+        _logger.LogInformation($"Business layer: Database query for updating lead {id}, new data: {newLead.FirstName}, {newLead.LastName}, {newLead.Patronymic}, {newLead.Birthday}, {newLead.Phone.MaskNumber()}");
 
         var lead = await _leadsRepository.GetById(id);
 
