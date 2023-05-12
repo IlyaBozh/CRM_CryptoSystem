@@ -66,9 +66,11 @@ public class AccountsService : IAccountsService
         await _accountsRepository.DeleteOrRestore(id, true);
     }
 
-    public Task<List<AccountDto>> GetAllByLeadId(int id, ClaimModel claim)
+    public async Task<List<AccountDto>> GetAllByLeadId(int LeadId, ClaimModel claim)
     {
-        throw new NotImplementedException();
+        _logger.LogInformation($"Business layer: Database query for getting accounts by lead id : {LeadId}");
+        AccessService.CheckAccessForLeadAndManager(LeadId, claim);
+        return await _accountsRepository.GetAllByLeadId(LeadId);
     }
 
     public Task<AccountDto> GetById(int id, ClaimModel calim)
