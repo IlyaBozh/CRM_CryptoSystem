@@ -45,6 +45,10 @@ public class ExceptionMiddleware
         {
             await HandleExceptionAsync(httpContext, HttpStatusCode.Conflict, error.Message);
         }
+        catch (RegularAccountRestrictionException error)
+        {
+            await HandleExceptionAsync(httpContext, HttpStatusCode.Conflict, error.Message);
+        }
     }
 
     private async Task HandleExceptionAsync(HttpContext context, HttpStatusCode statusCode, string message)
