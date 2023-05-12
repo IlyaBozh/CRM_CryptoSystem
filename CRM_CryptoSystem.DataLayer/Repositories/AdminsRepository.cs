@@ -30,8 +30,14 @@ public class AdminsRepository : BaseRepository, IAdminsRepository
         return id;
     }
 
-    public Task<AdminDto> GetAdminByEmail(string email)
+    public async Task<AdminDto> GetAdminByEmail(string email)
     {
-        throw new NotImplementedException();
+        _logger.LogInformation($"Data Layer: get admin by email {email}");
+        var admin = await _connectionString.QueryFirstOrDefaultAsync<AdminDto>(
+            StoredProcedures.Admin_GetAdminByEmail,
+            param: new { email },
+            commandType: CommandType.StoredProcedure);
+
+        return admin;
     }
 }
