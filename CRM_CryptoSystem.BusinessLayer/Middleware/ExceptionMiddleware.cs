@@ -25,7 +25,18 @@ public class ExceptionMiddleware
         {
             await HandleExceptionAsync(httpContext, HttpStatusCode.NotFound, error.Message);
         }
-
+        catch (AccessDeniedException error)
+        {
+            await HandleExceptionAsync(httpContext, HttpStatusCode.Forbidden, error.Message);
+        }
+        catch (NotUniqueEmailException error)
+        {
+            await HandleExceptionAsync(httpContext, HttpStatusCode.Conflict, error.Message);
+        }
+        catch (BadGatewayException error)
+        {
+            await HandleExceptionAsync(httpContext, HttpStatusCode.BadGateway, error.Message);
+        }
     }
 
     private async Task HandleExceptionAsync(HttpContext context, HttpStatusCode statusCode, string message)
