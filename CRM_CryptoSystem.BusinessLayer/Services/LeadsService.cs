@@ -126,7 +126,7 @@ public class LeadsService : ILeadsService
         _logger.LogInformation($"Business layer: Database query for getting lead by id {id}, {lead.FirstName}, {lead.LastName}, {lead.Patronymic}, {lead.Birthday}, {lead.Phone.MaskNumber()}, " +
             $"{lead.Email.MaskEmail()}, {lead.Login}");
 
-        //AccessService.CheckAccessForLeadAndManager(lead.Id, claims);
+        AccessService.CheckAccessForLeadAndManager(lead.Id, claims);
 
         return lead;
     }

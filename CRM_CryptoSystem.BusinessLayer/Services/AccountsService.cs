@@ -51,9 +51,19 @@ public class AccountsService : IAccountsService
         return accountId;
     }
 
-    public Task DeleteOrRestore(int id, ClaimModel claim)
+    public async Task DeleteOrRestore(int id, ClaimModel claim)
     {
-        throw new NotImplementedException();
+        var account = await _accountsRepository.GetById(id);
+
+        if (account is null)
+        {
+            throw new NotFoundException("Account not found");
+        }
+
+        _logger.LogInformation($"Business layer: Database query for deleting account: {id} {account.LeadId}, {account.Currency}, {account.Status}");
+        AccessService.CheckAccessForLeadAndManager(id, claim);
+
+        await _accountsRepository.DeleteOrRestore(id, true);
     }
 
     public Task<List<AccountDto>> GetAllByLeadId(int id, ClaimModel claim)
