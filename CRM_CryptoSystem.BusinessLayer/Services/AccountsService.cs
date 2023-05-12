@@ -7,6 +7,7 @@ using CRM_CryptoSystem.DataLayer.Interfaces;
 using CRM_CryptoSystem.DataLayer.Models;
 using CRM_CryptoSystem.DataLayer.Repositories;
 using Microsoft.Extensions.Logging;
+using System.Security.Claims;
 
 namespace CRM_CryptoSystem.BusinessLayer.Services;
 
@@ -73,9 +74,19 @@ public class AccountsService : IAccountsService
         return await _accountsRepository.GetAllByLeadId(LeadId);
     }
 
-    public Task<AccountDto> GetById(int id, ClaimModel calim)
+    public async Task<AccountDto> GetById(int id, ClaimModel claim)
     {
-        throw new NotImplementedException();
+        var account = await _accountsRepository.GetById(id);
+
+        if (account == null)
+        {
+            throw new NotFoundException("Account not found");
+        }
+
+        _logger.LogInformation($"Business layer: Database query for getting account: {id} {account.LeadId}, {account.Currency}, {account.Status}");
+        AccessService.CheckAccessForLeadAndManager(claim.Id, claim);
+
+        return account;
     }
 
     public Task Update(AccountDto accountDTO, int id, ClaimModel claim)
