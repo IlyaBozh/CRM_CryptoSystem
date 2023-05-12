@@ -8,6 +8,7 @@ using CRM_CryptoSystem.DataLayer.Models;
 using CRM_CryptoSystem.DataLayer.Repositories;
 using Microsoft.Extensions.Logging;
 using System.Security.Claims;
+using System.Security.Principal;
 
 namespace CRM_CryptoSystem.BusinessLayer.Services;
 
@@ -89,8 +90,11 @@ public class AccountsService : IAccountsService
         return account;
     }
 
-    public Task Update(AccountDto accountDTO, int id, ClaimModel claim)
+    public async Task Update(AccountDto accountDto, int id, ClaimModel claim)
     {
-        throw new NotImplementedException();
+        _logger.LogInformation($"Business layer: Database query for updating account by id {id}, {account.Status}");
+        AccessService.CheckAccessForLeadAndManager(id, claim);
+
+        await _accountsRepository.Update(accountDto, id);
     }
 }
