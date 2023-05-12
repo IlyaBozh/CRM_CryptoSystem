@@ -3,6 +3,7 @@ using CRM_CryptoSystem.BusinessLayer.Infrastructure;
 using CRM_CryptoSystem.BusinessLayer.Models;
 using CRM_CryptoSystem.BusinessLayer.Services.Interfaces;
 using CRM_CryptoSystem.DataLayer.Interfaces;
+using CRM_CryptoSystem.DataLayer.Repositories;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.Data;
@@ -46,8 +47,19 @@ public class AuthService : IAuthService
         return new JwtSecurityTokenHandler().WriteToken(jwt);
     }
 
-    public Task<ClaimModel> Login(string login, string password)
+    public async Task<ClaimModel> Login(string login, string password)
     {
-        throw new NotImplementedException();
+        _logger.LogInformation($"Business layer: Database query for login {login}");
+        ClaimModel claimModel = new ClaimModel();
+
+        var lead = await _leadsRepository.GetByEmail(login);
+
+        ClaimModelReturnerService.ReturnLead(lead, login, password, claimModel);
+
+        var admin = await _adminsRepository.GetAdminByEmail(login);
+
+        ClaimModelReturnerService.ReturnAdmin(admin, login, password, claimModel);
+
+        return claimModel;
     }
 }
