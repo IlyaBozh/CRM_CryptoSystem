@@ -37,6 +37,10 @@ public class ExceptionMiddleware
         {
             await HandleExceptionAsync(httpContext, HttpStatusCode.BadGateway, error.Message);
         }
+        catch (GatewayTimeoutException error)
+        {
+            await HandleExceptionAsync(httpContext, HttpStatusCode.GatewayTimeout, error.Message);
+        }
     }
 
     private async Task HandleExceptionAsync(HttpContext context, HttpStatusCode statusCode, string message)
