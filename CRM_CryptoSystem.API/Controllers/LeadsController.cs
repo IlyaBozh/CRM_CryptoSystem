@@ -75,8 +75,8 @@ public class LeadsController : ControllerBase
     public async Task<ActionResult<List<LeadMainInfoResponse>>> GetAll()
     {
         _logger.LogInformation("Controller: Get all leads");
-        var leads = new List<LeadMainInfoResponse>();
-        return Ok(leads);
+        var leads = await _leadsService.GetAll();
+        return Ok(_mapper.Map<List<LeadAllInfoResponse>>(leads));
     }
 
     [Authorize]
