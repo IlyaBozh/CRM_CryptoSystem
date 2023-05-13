@@ -103,12 +103,13 @@ public class LeadsController : ControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     public async Task<ActionResult> Remove(int id)
     {
-        //var claims = this.GetClaims();
+        var claims = this.GetClaims();
 
-        //var lead = await _leadsService.GetById(id, claims);
-       /* _logger.LogInformation($"Controller: Remove lead by id {id}:{lead.FirstName}, {lead.LastName}, {lead.Patronymic}, {lead.Birthday}, {lead.Phone.MaskNumber()}, " +
-            $"{lead.City}, {lead.Address.MaskTheLastFive}, {lead.Email.MaskEmail()}, {lead.Passport.MaskPassport()}");*/
-        //await _leadsService.Delete(id, true, claims);
+        var lead = await _leadsService.GetById(id, claims);
+        _logger.LogInformation($"Controller: Remove lead by id {id}:{lead.FirstName}, {lead.LastName}, {lead.Patronymic}, {lead.Birthday}, {lead.Phone.MaskNumber()}, " +
+            $"{lead.Email.MaskEmail()}, {lead.Login}");
+        
+        await _leadsService.DeleteOrRestore(id, true, claims);
 
         return NoContent();
     }
