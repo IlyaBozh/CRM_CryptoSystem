@@ -122,11 +122,12 @@ public class LeadsController : ControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     public async Task<ActionResult> Restore(int id)
     {
-        /*var claims = this.GetClaims();
-        var lead = await _leadsService.GetDeletedLeadById(id, claims);
+        var claims = this.GetClaims();
+        var lead = await _leadsService.GetById(id, claims);
         _logger.LogInformation($"Controller: Restore lead by id {id}: {lead.FirstName}, {lead.LastName}, {lead.Patronymic}, {lead.Birthday}, {lead.Phone.MaskNumber()}, " +
-            $"{lead.City}, {lead.Address.MaskTheLastFive}, {lead.Email.MaskEmail()}, {lead.Passport.MaskPassport()}");
-        await _leadsService.Restore(id, false, claims);*/
+            $"{lead.Email.MaskEmail()}, {lead.Login}");
+        
+        await _leadsService.DeleteOrRestore(id, false, claims);
 
         return NoContent();
     }
