@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CRM_CryptoSystem.API.Enums;
+using CRM_CryptoSystem.API.Extensions;
 using CRM_CryptoSystem.API.Infastructure;
 using CRM_CryptoSystem.API.Models.Requests;
 using CRM_CryptoSystem.API.Models.Responses;
@@ -40,7 +41,7 @@ public class LeadsController : ControllerBase
 
         var result = await _leadsService.Add(_mapper.Map<LeadDto>(request));
 
-        return Created("create", 1);
+        return Created($"{this.GetUrl()}/{result}", result);
     }
 
     [Authorize]
@@ -51,11 +52,11 @@ public class LeadsController : ControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public async Task<ActionResult<LeadAllInfoResponse>> GetById(int id)
     {
-        // var claims = this.GetClaims();
-        var lead = new LeadAllInfoResponse { Id = id };
+        var claims = this.GetClaims();
+        var lead = await _leadsService.GetById(id, claims);
 
-        _logger.LogInformation($"Controller: Get lead by id {id}: {lead.FirstName}, {lead.LastName}, {lead.Patronymic}, {lead.Birthday}, {lead.Phone}, " +
-            $", {lead.Email}, {lead.Login}");
+        _logger.LogInformation($"Controller: Get lead by id {id}: {lead.FirstName}, {lead.LastName}, {lead.Patronymic}, {lead.Birthday}, {lead.Phone.MaskNumber()}, " +
+            $", {lead.Email.MaskEmail()}, {lead.Login}");
 
         if (lead is null)
         {
@@ -63,7 +64,7 @@ public class LeadsController : ControllerBase
         }
         else
         {
-            return Ok(lead);
+            return Ok(_mapper.Map<LeadAllInfoResponse>(lead));
         }
     }
 
