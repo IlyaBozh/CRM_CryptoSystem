@@ -1,8 +1,7 @@
-﻿namespace CRM_CryptoSystem.API.Enums
+﻿namespace CRM_CryptoSystem.API.Enums;
+
+public enum Role
 {
-    public enum Role
-    {
-        Admin,
-        Lead
-    }
+    Admin = 1,
+    Lead
 }
