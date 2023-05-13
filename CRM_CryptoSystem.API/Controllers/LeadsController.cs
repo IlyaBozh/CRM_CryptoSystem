@@ -88,10 +88,10 @@ public class LeadsController : ControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
     public async Task<ActionResult> Update([FromBody] LeadUpdateRequest request, int id)
     {
-        _logger.LogInformation($"Controller: Update lead by id: {id}: {request.FirstName}, {request.LastName}, {request.Patronymic}, {request.Birthday}, {request.Phone}");
-        //var claims = this.GetClaims();
+        _logger.LogInformation($"Controller: Update lead by id: {id}: {request.FirstName}, {request.LastName}, {request.Patronymic}, {request.Birthday}, {request.Phone.MaskNumber()}");
+        var claims = this.GetClaims();
 
-        //await _leadsService.Update(_mapper.Map<LeadDto>(request), id, claims);
+        await _leadsService.Update(_mapper.Map<LeadDto>(request), id, claims);
         return NoContent();
     }
 
