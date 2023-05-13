@@ -92,7 +92,7 @@ public class AccountsService : IAccountsService
 
     public async Task Update(AccountDto accountDto, int id, ClaimModel claim)
     {
-        _logger.LogInformation($"Business layer: Database query for updating account by id {id}, {account.Status}");
+        _logger.LogInformation($"Business layer: Database query for updating account by id {id}, {accountDto.Status}");
         AccessService.CheckAccessForLeadAndManager(id, claim);
 
         await _accountsRepository.Update(accountDto, id);
