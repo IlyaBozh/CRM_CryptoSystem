@@ -34,7 +34,7 @@ public class LeadsController : ControllerBase
     public async Task<ActionResult<int>> Register([FromBody] LeadRegistrationRequest request)
     {
         _logger.LogInformation($"Controller: Lead registration: {request.FirstName}, {request.LastName}, {request.Patronymic}, {request.Birthday}, {request.Phone}, " +
-            $"{request.Email}, {request.Passport}");
+            $"{request.Email}, {request.Login}");
 
         return Created("create", 1);
     }
@@ -51,7 +51,7 @@ public class LeadsController : ControllerBase
         var lead = new LeadAllInfoResponse { Id = id };
 
         _logger.LogInformation($"Controller: Get lead by id {id}: {lead.FirstName}, {lead.LastName}, {lead.Patronymic}, {lead.Birthday}, {lead.Phone}, " +
-            $", {lead.Email}, {lead.Passport}");
+            $", {lead.Email}, {lead.Login}");
 
         if (lead is null)
         {
