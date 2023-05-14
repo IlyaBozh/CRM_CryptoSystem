@@ -3,7 +3,6 @@ using CRM_CryptoSystem.BusinessLayer.Infrastructure;
 using CRM_CryptoSystem.BusinessLayer.Models;
 using CRM_CryptoSystem.BusinessLayer.Services.Interfaces;
 using CRM_CryptoSystem.DataLayer.Interfaces;
-using CRM_CryptoSystem.DataLayer.Repositories;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.Data;
@@ -33,6 +32,7 @@ public class AuthService : IAuthService
 
         var claims = new List<Claim>
         {
+            { new Claim (ClaimTypes.Email, claim.Email.ToString()) },
             { new Claim (ClaimTypes.Role, claim.Role.ToString()) },
             { new Claim (ClaimTypes.NameIdentifier, claim.Id.ToString()) }
         };

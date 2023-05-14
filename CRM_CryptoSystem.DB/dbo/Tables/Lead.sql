@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[Lead] (
-    [Id]               INT                   NOT NULL,
+    [Id]               INT IDENTITY(1,1)     NOT NULL PRIMARY KEY,
     [FirstName]        NCHAR (50)            NOT NULL,
     [LastName]         NCHAR (50)            NOT NULL,
     [Patronymic]       NCHAR (50)            NOT NULL,

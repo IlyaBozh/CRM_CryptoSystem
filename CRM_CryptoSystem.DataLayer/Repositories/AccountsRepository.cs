@@ -25,9 +25,9 @@ public class AccountsRepository : BaseRepository, IAccountsRepository
             StoredProcedures.Account_Add,
             param: new
             {
-                accountDto.LeadId,
                 accountDto.Currency,
-                accountDto.Status
+                accountDto.Status,
+                accountDto.LeadId
             },
             commandType: System.Data.CommandType.StoredProcedure);
 
