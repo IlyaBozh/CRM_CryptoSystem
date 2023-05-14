@@ -8,6 +8,7 @@ BEGIN
 		Id, 
 		FirstName, 
 		LastName, 
+		Email,
 		[Password]
 	FROM dbo.[Lead]
 	WHERE Email = @Email AND IsDeleted = 0

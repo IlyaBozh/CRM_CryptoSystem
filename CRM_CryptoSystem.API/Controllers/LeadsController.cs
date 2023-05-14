@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using CRM_CryptoSystem.API.Enums;
+using CRM_CryptoSystem.API.Extensions;
 using CRM_CryptoSystem.API.Infastructure;
 using CRM_CryptoSystem.API.Models.Requests;
 using CRM_CryptoSystem.API.Models.Responses;
+using CRM_CryptoSystem.BusinessLayer.Infrastructure;
 using CRM_CryptoSystem.BusinessLayer.Services.Interfaces;
+using CRM_CryptoSystem.DataLayer.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,10 +36,12 @@ public class LeadsController : ControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
     public async Task<ActionResult<int>> Register([FromBody] LeadRegistrationRequest request)
     {
-        _logger.LogInformation($"Controller: Lead registration: {request.FirstName}, {request.LastName}, {request.Patronymic}, {request.Birthday}, {request.Phone}, " +
-            $"{request.Email}, {request.Login}");
+        _logger.LogInformation($"Controller: Lead registration: {request.FirstName}, {request.LastName}, {request.Patronymic}, {request.Birthday}, {request.Phone.MaskNumber()}, " +
+            $"{request.Email.MaskEmail()}, {request.Login}");
 
-        return Created("create", 1);
+        var result = await _leadsService.Add(_mapper.Map<LeadDto>(request));
+
+        return Created($"{this.GetUrl()}/{result}", result);
     }
 
     [Authorize]
@@ -47,11 +52,11 @@ public class LeadsController : ControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public async Task<ActionResult<LeadAllInfoResponse>> GetById(int id)
     {
-        // var claims = this.GetClaims();
-        var lead = new LeadAllInfoResponse { Id = id };
+        var claims = this.GetClaims();
+        var lead = await _leadsService.GetById(id, claims);
 
-        _logger.LogInformation($"Controller: Get lead by id {id}: {lead.FirstName}, {lead.LastName}, {lead.Patronymic}, {lead.Birthday}, {lead.Phone}, " +
-            $", {lead.Email}, {lead.Login}");
+        _logger.LogInformation($"Controller: Get lead by id {id}: {lead.FirstName}, {lead.LastName}, {lead.Patronymic}, {lead.Birthday}, {lead.Phone.MaskNumber()}, " +
+            $", {lead.Email.MaskEmail()}, {lead.Login}");
 
         if (lead is null)
         {
@@ -59,7 +64,7 @@ public class LeadsController : ControllerBase
         }
         else
         {
-            return Ok(lead);
+            return Ok(_mapper.Map<LeadAllInfoResponse>(lead));
         }
     }
 
@@ -70,8 +75,8 @@ public class LeadsController : ControllerBase
     public async Task<ActionResult<List<LeadMainInfoResponse>>> GetAll()
     {
         _logger.LogInformation("Controller: Get all leads");
-        var leads = new List<LeadMainInfoResponse>();
-        return Ok(leads);
+        var leads = await _leadsService.GetAll();
+        return Ok(_mapper.Map<List<LeadAllInfoResponse>>(leads));
     }
 
     [Authorize]
@@ -83,10 +88,10 @@ public class LeadsController : ControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
     public async Task<ActionResult> Update([FromBody] LeadUpdateRequest request, int id)
     {
-        _logger.LogInformation($"Controller: Update lead by id: {id}: {request.FirstName}, {request.LastName}, {request.Patronymic}, {request.Birthday}, {request.Phone}");
-        //var claims = this.GetClaims();
+        _logger.LogInformation($"Controller: Update lead by id: {id}: {request.FirstName}, {request.LastName}, {request.Patronymic}, {request.Birthday}, {request.Phone.MaskNumber()}");
+        var claims = this.GetClaims();
 
-        //await _leadsService.Update(_mapper.Map<LeadDto>(request), id, claims);
+        await _leadsService.Update(_mapper.Map<LeadDto>(request), id, claims);
         return NoContent();
     }
 
@@ -98,12 +103,13 @@ public class LeadsController : ControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     public async Task<ActionResult> Remove(int id)
     {
-        //var claims = this.GetClaims();
+        var claims = this.GetClaims();
 
-        //var lead = await _leadsService.GetById(id, claims);
-       /* _logger.LogInformation($"Controller: Remove lead by id {id}:{lead.FirstName}, {lead.LastName}, {lead.Patronymic}, {lead.Birthday}, {lead.Phone.MaskNumber()}, " +
-            $"{lead.City}, {lead.Address.MaskTheLastFive}, {lead.Email.MaskEmail()}, {lead.Passport.MaskPassport()}");*/
-        //await _leadsService.Delete(id, true, claims);
+        var lead = await _leadsService.GetById(id, claims);
+        _logger.LogInformation($"Controller: Remove lead by id {id}:{lead.FirstName}, {lead.LastName}, {lead.Patronymic}, {lead.Birthday}, {lead.Phone.MaskNumber()}, " +
+            $"{lead.Email.MaskEmail()}, {lead.Login}");
+        
+        await _leadsService.DeleteOrRestore(id, true, claims);
 
         return NoContent();
     }
@@ -116,11 +122,12 @@ public class LeadsController : ControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     public async Task<ActionResult> Restore(int id)
     {
-        /*var claims = this.GetClaims();
-        var lead = await _leadsService.GetDeletedLeadById(id, claims);
+        var claims = this.GetClaims();
+        var lead = await _leadsService.GetById(id, claims);
         _logger.LogInformation($"Controller: Restore lead by id {id}: {lead.FirstName}, {lead.LastName}, {lead.Patronymic}, {lead.Birthday}, {lead.Phone.MaskNumber()}, " +
-            $"{lead.City}, {lead.Address.MaskTheLastFive}, {lead.Email.MaskEmail()}, {lead.Passport.MaskPassport()}");
-        await _leadsService.Restore(id, false, claims);*/
+            $"{lead.Email.MaskEmail()}, {lead.Login}");
+        
+        await _leadsService.DeleteOrRestore(id, false, claims);
 
         return NoContent();
     }

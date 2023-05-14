@@ -93,7 +93,7 @@ public class LeadsService : ILeadsService
     {
         var lead = await _leadsRepository.GetAllInfoById(id);
 
-        if (lead is null)
+        if (lead is null || lead.IsDeleted)
             throw new NotFoundException("Lead with this id was not found");
 
         _logger.LogInformation($"Business layer: Database query for getting lead by id {id}, {lead.FirstName}, {lead.LastName}, {lead.Patronymic}, {lead.Birthday}, {lead.Phone.MaskNumber()}, " +
@@ -120,7 +120,7 @@ public class LeadsService : ILeadsService
     {
         var lead = await _leadsRepository.GetById(id);
 
-        if (lead is null || lead.IsDeleted)
+        if (lead is null)
             throw new NotFoundException("Lead with this id was not found");
 
         _logger.LogInformation($"Business layer: Database query for getting lead by id {id}, {lead.FirstName}, {lead.LastName}, {lead.Patronymic}, {lead.Birthday}, {lead.Phone.MaskNumber()}, " +

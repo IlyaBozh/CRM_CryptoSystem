@@ -26,12 +26,12 @@ builder.Services.AddAuthorization();
 builder.Services.AddAuthentications();
 builder.Services.AddServices();
 builder.Services.AddFluentValidation();
-/*builder.Services.AddAutoMapper(typeof(MapperConfig));*/
+builder.Services.AddAutoMapper(typeof(MapperConfig));
 /*builder.Services.AddConsumersAndProducers();*/
 
 var app = builder.Build();
 
-app.UseMiddleware<ExceptionMiddleware>();
+/*app.UseMiddleware<ExceptionMiddleware>();*/
 
 app.UseSwagger();
 app.UseSwaggerUI();

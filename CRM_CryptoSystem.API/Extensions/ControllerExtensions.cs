@@ -19,8 +19,9 @@ public static class ControllerExtensions
         if (controller.User is not null)
         {
             var claims = controller.User.Claims.ToList();
-            claimModel.Role = Enum.Parse<Role>(claims[0].Value);
-            claimModel.Id = Int32.Parse(claims[1].Value);
+            claimModel.Email = claims[0].Value;
+            claimModel.Role = Enum.Parse<Role>(claims[1].Value);
+            claimModel.Id = Int32.Parse(claims[2].Value);
         }
 
         return claimModel;

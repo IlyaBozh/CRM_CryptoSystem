@@ -1,12 +1,12 @@
 ﻿CREATE PROCEDURE [dbo].[Lead_Delete]
-		@Id int,
-		@IsDeleted bit
+		@id int,
+		@isDeleted bit
 
 AS
 BEGIN
 
 	UPDATE dbo.[Lead]
-	SET isDeleted = @IsDeleted
+	SET isDeleted = @isDeleted
 	WHERE Id = @Id
 
 END

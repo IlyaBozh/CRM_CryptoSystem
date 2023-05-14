@@ -4,9 +4,7 @@
 	@LastName nvarchar(50),
 	@Patronymic nvarchar(50),
 	@Birthday date,
-	@Phone nvarchar(15),
-	@City tinyint,
-	@Address nvarchar(60)
+	@Phone nvarchar(15)
 
 AS
 BEGIN

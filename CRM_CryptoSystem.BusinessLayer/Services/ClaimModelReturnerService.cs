@@ -10,11 +10,12 @@ public class ClaimModelReturnerService
 {
     public static ClaimModel ReturnLead(LeadDto lead, string login, string password, ClaimModel claimModel)
     {
-        if (lead is not null && login == lead.Email &&
-            PasswordHash.ValidatePassword(password, lead.Password) && !lead.IsDeleted)
+        if (lead is not null && login == lead.Email.Trim() &&
+            PasswordHash.ValidatePassword(password, lead.Password) && lead.IsDeleted == false)
         {
             claimModel.Role = Role.Lead;
             claimModel.Id = lead.Id;
+            claimModel.Email = lead.Email;
         }
 
         return claimModel;
@@ -22,11 +23,12 @@ public class ClaimModelReturnerService
 
     public static ClaimModel ReturnAdmin(AdminDto admin, string login, string password, ClaimModel claimModel)
     {
-        if (admin is not null && login == admin.Email &&
+        if (admin is not null && login == admin.Email.Trim() &&
            PasswordHash.ValidatePassword(password, admin.Password) && !admin.IsDeleted)
         {
             claimModel.Role = Role.Admin;
             claimModel.Id = admin.Id;
+            claimModel.Email = admin.Email;
         }
         return claimModel;
     }

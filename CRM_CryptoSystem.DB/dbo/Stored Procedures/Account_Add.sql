@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[Account_Add]
-	@CryptoCurrency tinyint,
+	@Currency tinyint,
 	@Status tinyint,
 	@LeadId int
 AS
@@ -9,7 +9,7 @@ BEGIN
 			[Status],
 			LeadId)
 	VALUES(
-			@CryptoCurrency,
+			@Currency,
 			@Status,
 			@LeadId)
 

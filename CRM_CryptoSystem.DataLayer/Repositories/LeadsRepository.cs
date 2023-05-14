@@ -37,16 +37,16 @@ public class LeadsRepository : BaseRepository, ILeadsRepository
         return id;
     }
 
-    public async Task DeleteOrRestore(int id, bool isDeleting)
+    public async Task DeleteOrRestore(int id, bool isDeleted)
     {
-        if (isDeleting)
+        if (isDeleted)
             _logger.LogInformation($"Data layer: delete lead by id {id}");
         else
             _logger.LogInformation($"Data layer: restore lead by id {id}");
 
         await _connectionString.ExecuteAsync(
             StoredProcedures.Lead_Delete,
-            param: new { id, isDeleting },
+            param: new { id, isDeleted },
             commandType: System.Data.CommandType.StoredProcedure);
     }
 
