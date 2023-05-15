@@ -80,8 +80,8 @@ public class AccountsController : Controller
     public async Task<ActionResult> UpdateAccount([FromBody] UpdateAccountRequest accountRequest, int id)
     {
         _logger.LogInformation($"Controller: Update an account by id: {id}, AccountStatus {accountRequest.AccountStatus}");
-        /*var claim = this.GetClaims();*/
-       /* await _accountService.UpdateAccount(_mapper.Map<AccountDto>(accountRequest), id, claim);*/
+        var claim = this.GetClaims();
+        await _accountService.Update(_mapper.Map<AccountDto>(accountRequest), id, claim);
         return NoContent();
     }
 
