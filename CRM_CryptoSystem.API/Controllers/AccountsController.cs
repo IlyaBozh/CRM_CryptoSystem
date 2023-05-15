@@ -3,6 +3,7 @@ using CRM_CryptoSystem.API.Extensions;
 using CRM_CryptoSystem.API.Models.Requests;
 using CRM_CryptoSystem.API.Models.Responses;
 using CRM_CryptoSystem.BusinessLayer.Services.Interfaces;
+using CRM_CryptoSystem.DataLayer.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -63,9 +64,8 @@ public class AccountsController : Controller
     public async Task<ActionResult<int>> AddAccount([FromBody] AddAccountRequest accountRequest)
     {
         _logger.LogInformation($"Controller: Add an account: LeadId:{accountRequest.LeadId}, TradingCurrency:{accountRequest.CryptoCurrencie}");
-        /*var claim = this.GetClaims();
-        var result = await _accountService.AddAccount(_mapper.Map<AccountDto>(accountRequest), claim);*/
-        var result = 1;
+        var claim = this.GetClaims();
+        var result = await _accountService.Add(_mapper.Map<AccountDto>(accountRequest), claim);
         return Created("", result);
     }
 
