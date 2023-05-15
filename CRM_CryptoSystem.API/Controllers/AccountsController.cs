@@ -49,11 +49,9 @@ public class AccountsController : Controller
     public async Task<ActionResult<List<AccountResponse>>> GetAllAccountsByLeadId(int leadId)
     {
         _logger.LogInformation($"Controller: Get all accounts by lead id {leadId}");
-       /* var claim = this.GetClaims();
-        var result = await _accountService.GetAllAccountsByLeadId(leadId, claim);*/
-        var result = new List<AccountResponse>();
-        /*return Ok(_mapper.Map<List<AccountResponse>>(result));*/
-        return Ok(result);
+        var claim = this.GetClaims();
+        var result = await _accountService.GetAllByLeadId(leadId, claim);
+        return Ok(_mapper.Map<List<AccountResponse>>(result));
     }
 
     [Authorize]
