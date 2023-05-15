@@ -93,8 +93,8 @@ public class AccountsController : Controller
     public async Task<ActionResult> DeleteAccount(int id)
     {
         _logger.LogInformation($"Controller: Delete an account by id: {id}");
-/*        var claim = this.GetClaims();
-        await _accountService.DeleteAccount(id, claim);*/
+        var claim = this.GetClaims();
+        await _accountService.DeleteOrRestore(id, claim);
         return NoContent();
     }
 }
