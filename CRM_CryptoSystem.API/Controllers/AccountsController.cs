@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
+using CRM_CryptoSystem.API.Extensions;
 using CRM_CryptoSystem.API.Models.Requests;
 using CRM_CryptoSystem.API.Models.Responses;
+using CRM_CryptoSystem.BusinessLayer.Services.Interfaces;
+using CRM_CryptoSystem.DataLayer.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,12 +14,13 @@ namespace CRM_CryptoSystem.API.Controllers;
 [Route("[controller]")]
 public class AccountsController : Controller
 {
-    /*private readonly IAccountService _accountService;*/
+    private readonly IAccountsService _accountService;
     private readonly IMapper _mapper;
     private readonly ILogger<AccountsController> _logger;
 
-    public AccountsController (IMapper mapper, ILogger<AccountsController> logger)
+    public AccountsController (IAccountsService accountService, IMapper mapper, ILogger<AccountsController> logger)
     {
+        _accountService= accountService;
         _mapper = mapper;
         _logger = logger;
     }
@@ -30,14 +34,12 @@ public class AccountsController : Controller
     public async Task<ActionResult<AccountResponse>> GetAccount(int id)
     {
         _logger.LogInformation($"Controller: Get an account by id {id}");
-/*        var claim = this.GetClaims();
-        var result = await _accountService.GetAccountById(id, claim);*/
-        var result = new AccountResponse();
+        var claim = this.GetClaims();
+        var result = await _accountService.GetById(id, claim);
         if (result == null)
             return NotFound();
         else
-            /*return Ok(_mapper.Map<AccountResponse>(result));*/
-            return Ok(result);
+            return Ok(_mapper.Map<AccountResponse>(result));
     }
 
     [Authorize]
@@ -48,11 +50,9 @@ public class AccountsController : Controller
     public async Task<ActionResult<List<AccountResponse>>> GetAllAccountsByLeadId(int leadId)
     {
         _logger.LogInformation($"Controller: Get all accounts by lead id {leadId}");
-       /* var claim = this.GetClaims();
-        var result = await _accountService.GetAllAccountsByLeadId(leadId, claim);*/
-        var result = new List<AccountResponse>();
-        /*return Ok(_mapper.Map<List<AccountResponse>>(result));*/
-        return Ok(result);
+        var claim = this.GetClaims();
+        var result = await _accountService.GetAllByLeadId(leadId, claim);
+        return Ok(_mapper.Map<List<AccountResponse>>(result));
     }
 
     [Authorize]
@@ -63,10 +63,9 @@ public class AccountsController : Controller
     [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
     public async Task<ActionResult<int>> AddAccount([FromBody] AddAccountRequest accountRequest)
     {
-        _logger.LogInformation($"Controller: Add an account: LeadId:{accountRequest.LeadId}, TradingCurrency:{accountRequest.CryptoCurrencie}");
-        /*var claim = this.GetClaims();
-        var result = await _accountService.AddAccount(_mapper.Map<AccountDto>(accountRequest), claim);*/
-        var result = 1;
+        _logger.LogInformation($"Controller: Add an account: LeadId:{accountRequest.LeadId}, TradingCurrency:{accountRequest.CryptoCurrency}");
+        var claim = this.GetClaims();
+        var result = await _accountService.Add(_mapper.Map<AccountDto>(accountRequest), claim);
         return Created("", result);
     }
 
@@ -81,8 +80,8 @@ public class AccountsController : Controller
     public async Task<ActionResult> UpdateAccount([FromBody] UpdateAccountRequest accountRequest, int id)
     {
         _logger.LogInformation($"Controller: Update an account by id: {id}, AccountStatus {accountRequest.AccountStatus}");
-        /*var claim = this.GetClaims();*/
-       /* await _accountService.UpdateAccount(_mapper.Map<AccountDto>(accountRequest), id, claim);*/
+        var claim = this.GetClaims();
+        await _accountService.Update(_mapper.Map<AccountDto>(accountRequest), id, claim);
         return NoContent();
     }
 
@@ -94,8 +93,8 @@ public class AccountsController : Controller
     public async Task<ActionResult> DeleteAccount(int id)
     {
         _logger.LogInformation($"Controller: Delete an account by id: {id}");
-/*        var claim = this.GetClaims();
-        await _accountService.DeleteAccount(id, claim);*/
+        var claim = this.GetClaims();
+        await _accountService.DeleteOrRestore(id, claim);
         return NoContent();
     }
 }
