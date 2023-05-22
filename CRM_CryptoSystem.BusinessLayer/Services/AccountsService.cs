@@ -27,21 +27,21 @@ public class AccountsService : IAccountsService
 
     public async Task<int> Add(AccountDto accountDTO, ClaimModel claim)
     {
-        _logger.LogInformation($"Business layer: Database query for adding account {accountDTO.LeadId}, {accountDTO.Currency}, {accountDTO.Status}");
-        AccessService.CheckAccessForLeadAndManager(accountDTO.Id, claim);
-
+        _logger.LogInformation($"Business layer: Database query for adding account {accountDTO.LeadId}, {accountDTO.CryptoCurrency}, {accountDTO.Status}");
+/*        AccessService.CheckAccessForLeadAndManager(accountDTO.Id, claim);
+*/
         var lead = await _leadsRepository.GetById(accountDTO.LeadId);
 
         if (lead.Role == Role.Lead)
         {
-            if (accountDTO.Currency != CryptoCurrencies.USD)
+            if (accountDTO.CryptoCurrency != CryptoCurrencies.USD && accountDTO.CryptoCurrency != CryptoCurrencies.BITCOIN)
             {
                 throw new RegularAccountRestrictionException("Regular lead cannot have any other account except RUB or USD");
             }
         }
 
         List<AccountDto> accountsOfLead = await _accountsRepository.GetAllByLeadId(accountDTO.LeadId);
-        var isRepeated = accountsOfLead.Any(a => a.Currency == accountDTO.Currency);
+        var isRepeated = accountsOfLead.Any(a => a.CryptoCurrency == accountDTO.CryptoCurrency);
 
         if (isRepeated)
         {
@@ -62,7 +62,7 @@ public class AccountsService : IAccountsService
             throw new NotFoundException("Account not found");
         }
 
-        _logger.LogInformation($"Business layer: Database query for deleting account: {id} {account.LeadId}, {account.Currency}, {account.Status}");
+        _logger.LogInformation($"Business layer: Database query for deleting account: {id} {account.LeadId}, {account.CryptoCurrency}, {account.Status}");
         AccessService.CheckAccessForLeadAndManager(id, claim);
 
         await _accountsRepository.DeleteOrRestore(id, true);
@@ -84,7 +84,7 @@ public class AccountsService : IAccountsService
             throw new NotFoundException("Account not found");
         }
 
-        _logger.LogInformation($"Business layer: Database query for getting account: {id} {account.LeadId}, {account.Currency}, {account.Status}");
+        _logger.LogInformation($"Business layer: Database query for getting account: {id} {account.LeadId}, {account.CryptoCurrency}, {account.Status}");
         AccessService.CheckAccessForLeadAndManager(claim.Id, claim);
 
         return account;

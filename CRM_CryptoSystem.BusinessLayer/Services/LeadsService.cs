@@ -42,7 +42,7 @@ public class LeadsService : ILeadsService
         AccountDto account= new AccountDto()
         {
             LeadId = leadId,
-            Currency = CryptoCurrencies.USD,
+            CryptoCurrency = CryptoCurrencies.USD,
             Status = AccountStatus.Active
         };
 

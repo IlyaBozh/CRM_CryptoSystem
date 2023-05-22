@@ -46,10 +46,10 @@ public class LeadRegistrationValidator : AbstractValidator<LeadRegistrationReque
         RuleFor(v => v.Login)
             .NotEmpty()
             .WithMessage("Fill in the field")
-            .MinimumLength(11)
-            .WithMessage("Fill in number and series of passport at least")
-            .MaximumLength(150)
-            .WithMessage("Maximum length is 150 symbols");
+            .MinimumLength(2)
+            .WithMessage("Minimum length is 2 symbols")
+            .MaximumLength(50)
+            .WithMessage("Maximum length is 50 symbols");
 
         RuleFor(v => v.Password)
             .NotEmpty()

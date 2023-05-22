@@ -31,7 +31,7 @@ builder.Services.AddAutoMapper(typeof(MapperConfig));
 
 var app = builder.Build();
 
-/*app.UseMiddleware<ExceptionMiddleware>();*/
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseSwagger();
 app.UseSwaggerUI();

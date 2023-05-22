@@ -7,11 +7,11 @@ public class AddAccountValidator : AbstractValidator<AddAccountRequest>
 {
     public AddAccountValidator()
     {
-        RuleFor(a => a.CryptoCurrencie)
+        RuleFor(a => a.CryptoCurrency)
             .IsInEnum()
             .NotEmpty();
 
-        RuleFor(a => a.AccountStatus)
+        RuleFor(a => a.Status)
             .IsInEnum()
             .NotEmpty();
 

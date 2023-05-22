@@ -19,13 +19,13 @@ public class AccountsRepository : BaseRepository, IAccountsRepository
 
     public async Task<int> Add(AccountDto accountDto)
     {
-        _logger.LogInformation($"Data Layer: Add account: {accountDto.LeadId}, {accountDto.Currency}, {accountDto.Status}");
+        _logger.LogInformation($"Data Layer: Add account: {accountDto.LeadId}, {accountDto.CryptoCurrency}, {accountDto.Status}");
 
         var id = await _connectionString.QuerySingleAsync<int>(
             StoredProcedures.Account_Add,
             param: new
             {
-                accountDto.Currency,
+                accountDto.CryptoCurrency,
                 accountDto.Status,
                 accountDto.LeadId
             },
@@ -72,12 +72,12 @@ public class AccountsRepository : BaseRepository, IAccountsRepository
 
     public async Task<AccountDto> GetById(int id)
     {
-        var account = (await _connectionString.QueryAsync(
+        var account = (await _connectionString.QueryAsync<AccountDto>(
             StoredProcedures.Account_GetById,
             param: new { id },
             commandType: System.Data.CommandType.StoredProcedure)).FirstOrDefault();
 
-        _logger.LogInformation($"Data Layer: Get account by id: {account.LeadId}, {account.Currency}, {account.Status}");
+        _logger.LogInformation($"Data Layer: Get account by id: {account.LeadId}, {account.CryptoCurrency}, {account.Status}");
 
         return account;
     }
