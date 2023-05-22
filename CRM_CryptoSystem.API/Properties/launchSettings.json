@@ -18,7 +18,8 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "CRM_CONNECTION_STRING": "Server=.;Database=CRM_CryptoSystem.DB;Trusted_Connection=True;",
-        "LOG_DIRECTORY": "C:\\Users\\iliai\\source\\repos\\logs\\CRM"
+        "LOG_DIRECTORY": "C:\\Users\\iliai\\source\\repos\\logs\\CRM",
+        "TRANSACTION_STORE_BASE_URL": "https://localhost:7051"
         //"$(MSBuildProjectDirectory)\\Logs"
       }
     },
