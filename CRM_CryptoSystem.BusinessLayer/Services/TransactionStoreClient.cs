@@ -42,9 +42,14 @@ public class TransactionStoreClient : IHttpService
         return result;
     }
 
-    public Task<TransactionResponse> GetTransaction(int transactionId)
+    public async Task<TransactionResponse> GetTransaction(int transactionId)
     {
-        throw new NotImplementedException();
+        var response = await _httpClient.GetAsync($"transactions/{transactionId}");
+        response.EnsureSuccessStatusCode();
+
+        var content = await response.Content.ReadAsStringAsync();
+        var result = JsonSerializer.Deserialize<TransactionResponse>(content, _options);
+        return result;
     }
 
     public Task<List<TransactionResponse>> GetTransactionsByAccountId(int accountId)
