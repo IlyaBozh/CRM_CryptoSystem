@@ -32,9 +32,14 @@ public class TransactionStoreClient : IHttpService
     }
 
 
-    public Task<decimal> GetBalanceByAccountsId(int accountId)
+    public async Task<decimal> GetBalanceByAccountsId(int accountId)
     {
-        throw new NotImplementedException();
+        var response = await _httpClient.GetAsync($"accounts/{accountId}/balance");
+        response.EnsureSuccessStatusCode();
+
+        var content = await response.Content.ReadAsStringAsync();
+        var result = JsonSerializer.Deserialize<decimal>(content, _options);
+        return result;
     }
 
     public Task<TransactionResponse> GetTransaction(int transactionId)
