@@ -3,8 +3,6 @@ using CRM_CryptoSystem.BusinessLayer.Models;
 using CRM_CryptoSystem.BusinessLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using IncredibleBackendContracts.Requests;
-using IncredibleBackendContracts.Responses;
 
 namespace CRM_CryptoSystem.API.Controllers;
 

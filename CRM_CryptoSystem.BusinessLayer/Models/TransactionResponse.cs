@@ -1,6 +1,7 @@
-﻿using CRM_CryptoSystem.API.Enums;
+﻿
+using IncredibleBackendContracts.Enums;
 
-namespace CRM_CryptoSystem.API.Models.Responses;
+namespace CRM_CryptoSystem.BusinessLayer.Models;
 
 public class TransactionResponse
 {
@@ -9,5 +10,5 @@ public class TransactionResponse
     public DateTime Date { get; set; }
     public TransactionType TransactionType { get; set; }
     public decimal Amount { get; set; }
-    public CryptoCurrencies CryptoCurrency { get; set; }
+    public Currency CryptoCurrency { get; set; }
 }
