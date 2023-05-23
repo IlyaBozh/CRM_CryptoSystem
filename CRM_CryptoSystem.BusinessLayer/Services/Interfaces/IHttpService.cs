@@ -1,5 +1,6 @@
 ﻿
-using IncredibleBackendContracts.Responses;
+
+using CRM_CryptoSystem.BusinessLayer.Models;
 
 namespace CRM_CryptoSystem.BusinessLayer.Services.Interfaces;
 

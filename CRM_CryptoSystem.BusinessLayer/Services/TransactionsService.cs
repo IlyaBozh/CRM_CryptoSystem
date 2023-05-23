@@ -1,7 +1,6 @@
 ﻿
+using CRM_CryptoSystem.BusinessLayer.Models;
 using CRM_CryptoSystem.BusinessLayer.Services.Interfaces;
-using IncredibleBackendContracts.Requests;
-using IncredibleBackendContracts.Responses;
 using Microsoft.Extensions.Logging;
 
 namespace CRM_CryptoSystem.BusinessLayer.Services;

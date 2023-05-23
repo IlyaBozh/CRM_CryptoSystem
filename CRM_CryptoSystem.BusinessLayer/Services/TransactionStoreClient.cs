@@ -1,7 +1,7 @@
 ﻿
 using CRM_CryptoSystem.BusinessLayer.Exceptions;
+using CRM_CryptoSystem.BusinessLayer.Models;
 using CRM_CryptoSystem.BusinessLayer.Services.Interfaces;
-using IncredibleBackendContracts.Responses;
 using System.Text;
 using System.Text.Json;
 
