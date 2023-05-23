@@ -76,9 +76,9 @@ public static class ProgrammExtentions
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IAccountsRepository, AccountsRepository>();
         services.AddScoped<IAccountsService, AccountsService>();
-/*        services.AddScoped<IHttpService, TransactionStoreClient>();
+        services.AddScoped<IHttpService, TransactionStoreClient>();
         services.AddScoped<ITransactionsService, TransactionsService>();
-        services.AddScoped<IMessageProducer, MessageProducer>();*/
+/*        services.AddScoped<IMessageProducer, MessageProducer>();*/
     }
 
     public static void AddFluentValidation(this IServiceCollection services)
