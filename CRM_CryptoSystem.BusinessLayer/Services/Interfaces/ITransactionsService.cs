@@ -4,7 +4,7 @@ using IncredibleBackendContracts.Responses;
 
 namespace CRM_CryptoSystem.BusinessLayer.Services.Interfaces;
 
-public interface ITransactionService
+public interface ITransactionsService
 {
     Task<long> AddDeposit(TransactionRequest request);
     Task<long> AddWithdraw(TransactionRequest request);
