@@ -33,7 +33,7 @@ public class TransactionStoreClient : IHttpService
 
     public async Task<decimal> GetBalanceByAccountsId(int accountId)
     {
-        var response = await _httpClient.GetAsync($"accounts/{accountId}/balance");
+        var response = await _httpClient.GetAsync($"/accounts/{accountId}/balance");
         response.EnsureSuccessStatusCode();
 
         var content = await response.Content.ReadAsStringAsync();
@@ -43,7 +43,7 @@ public class TransactionStoreClient : IHttpService
 
     public async Task<TransactionResponse> GetTransaction(int transactionId)
     {
-        var response = await _httpClient.GetAsync($"transactions/{transactionId}");
+        var response = await _httpClient.GetAsync($"/transactions/{transactionId}");
         response.EnsureSuccessStatusCode();
 
         var content = await response.Content.ReadAsStringAsync();
@@ -53,7 +53,7 @@ public class TransactionStoreClient : IHttpService
 
     public async Task<List<TransactionResponse>> GetTransactionsByAccountId(int accountId)
     {
-        var response = await _httpClient.GetAsync($"accounts/{accountId}/transactions");
+        var response = await _httpClient.GetAsync($"/accounts/{accountId}/transactions");
         response.EnsureSuccessStatusCode();
 
         var content = await response.Content.ReadAsStringAsync();
