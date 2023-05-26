@@ -21,10 +21,10 @@ public class TransactionsService : ITransactionsService
         return await _httpService.Post<TransactionRequestModel, long>(request, PathConst.DepositPath);
     }
 
-    public async Task<long> AddWithdraw(TransactionRequestModel request)
+    public async Task<long> AddWithdraw(TransactionTransferRequestModel request)
     {
         _logger.LogInformation($"Business layer: Database query for adding withdraw {request.AccountId}, {request.Amount}, {request.Currency}");
-        return await _httpService.Post<TransactionRequestModel, long>(request, PathConst.WithdrawPath);
+        return await _httpService.Post<TransactionTransferRequestModel, long>(request, PathConst.WithdrawPath);
     }
 
     public async Task<decimal> GetBalanceByAccountsId(int accountId)

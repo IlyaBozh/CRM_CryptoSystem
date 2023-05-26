@@ -18,6 +18,8 @@ public class MapperConfig : Profile
         CreateMap<TransactionRequest, TransactionRequestModel>();
         CreateMap<TransactionResponseModel, TransactionResponse>();
 
+        CreateMap<TransactionTransferRequest, TransactionTransferRequestModel>();
+
         CreateMap<AddAccountRequest, AccountDto>();
         CreateMap<AddAccountRequest, UpdateAccountRequest>();
         CreateMap<UpdateAccountRequest, AddAccountRequest>();

@@ -51,7 +51,7 @@ public class TransactionsController : Controller
     {
         _logger.LogInformation("Controllers: Add withdraw");
         var claims = this.GetClaims();
-        var transactionId = await _transactionsService.AddWithdraw(_mapper.Map<TransactionRequestModel>(request));
+        var transactionId = await _transactionsService.AddWithdraw(_mapper.Map<TransactionTransferRequestModel>(request));
         return Created($"{this.GetShemeAndHostString()}/transactions/{transactionId}", transactionId);
     }
 
