@@ -13,12 +13,14 @@ public class LeadsService : ILeadsService
 {
     private readonly ILeadsRepository _leadsRepository;
     private readonly IAccountsRepository _accountsRepository;
+    private readonly IHttpService _httpService;
     private readonly ILogger<LeadsService> _logger;
 
-    public LeadsService(ILeadsRepository leadsRepository, IAccountsRepository accountsRepository, ILogger<LeadsService> logger)
+    public LeadsService(ILeadsRepository leadsRepository, IAccountsRepository accountsRepository, IHttpService httpService, ILogger<LeadsService> logger)
     {
         _leadsRepository = leadsRepository;
         _accountsRepository = accountsRepository;
+        _httpService = httpService;
         _logger = logger;
     }
 
@@ -47,6 +49,17 @@ public class LeadsService : ILeadsService
         };
 
         var accountId = await _accountsRepository.Add(account);
+
+        TransactionRequestModel transactionRequest = new TransactionRequestModel()
+        {
+            AccountId = accountId,
+            Currency = Currency.USD,
+            Amount = 100000
+        };
+
+        _logger.LogInformation($"Business layer: Database query for adding deposit: {transactionRequest.AccountId}, {transactionRequest.Amount}, {transactionRequest.Currency}");
+
+        var transactionId = await _httpService.Post<TransactionRequestModel, long>(transactionRequest, PathConst.DepositPath);
 
         _logger.LogInformation($"Business layer: Database query for adding account Id: {accountId} by LeadId {lead.Id}");
 
