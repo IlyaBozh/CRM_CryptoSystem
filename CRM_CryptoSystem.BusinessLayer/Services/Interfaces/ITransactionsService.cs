@@ -6,9 +6,9 @@ namespace CRM_CryptoSystem.BusinessLayer.Services.Interfaces;
 
 public interface ITransactionsService
 {
-    Task<long> AddDeposit(TransactionRequest request);
-    Task<long> AddWithdraw(TransactionRequest request);
-    Task<TransactionResponse> GetTransactionById(int transactionId);
-    Task<List<TransactionResponse>> GetTransactionsByAccountId(int accountId);
+    Task<long> AddDeposit(TransactionRequestModel request);
+    Task<long> AddWithdraw(TransactionRequestModel request);
+    Task<TransactionResponseModel> GetTransactionById(int transactionId);
+    Task<List<TransactionResponseModel>> GetTransactionsByAccountId(int accountId);
     Task<decimal> GetBalanceByAccountsId(int accountId);
 }

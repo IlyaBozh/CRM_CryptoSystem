@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CRM_CryptoSystem.API.Models.Requests;
 using CRM_CryptoSystem.API.Models.Responses;
+using CRM_CryptoSystem.BusinessLayer.Models;
 using CRM_CryptoSystem.DataLayer.Models;
 
 namespace CRM_CryptoSystem.API.Infastructure;
@@ -13,6 +14,9 @@ public class MapperConfig : Profile
         CreateMap<LeadUpdateRequest, LeadDto>();
         CreateMap<LeadDto, LeadAllInfoResponse>();
         CreateMap<LeadDto, LeadMainInfoResponse>();
+
+        CreateMap<TransactionRequest, TransactionRequestModel>();
+        CreateMap<TransactionResponseModel, TransactionResponse>();
 
         CreateMap<AddAccountRequest, AccountDto>();
         CreateMap<AddAccountRequest, UpdateAccountRequest>();

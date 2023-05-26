@@ -1,9 +1,10 @@
 ﻿
-using IncredibleBackendContracts.Enums;
+
+using CRM_CryptoSystem.DataLayer.Enums;
 
 namespace CRM_CryptoSystem.BusinessLayer.Models;
 
-public class TransactionResponse
+public class TransactionResponseModel
 {
     public long Id { get; set; }
     public long AccountId { get; set; }
