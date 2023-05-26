@@ -2,6 +2,7 @@
 using CRM_CryptoSystem.BusinessLayer.Exceptions;
 using CRM_CryptoSystem.BusinessLayer.Models;
 using CRM_CryptoSystem.BusinessLayer.Services.Interfaces;
+using System.Net;
 using System.Text;
 using System.Text.Json;
 
@@ -69,30 +70,10 @@ public class TransactionStoreClient : IHttpService
 
         response = await _httpClient.PostAsync(path, requestPayload);
 
-        //CheckStatusCode(response.StatusCode);
-
         response.EnsureSuccessStatusCode();
 
         var content = await response.Content.ReadAsStringAsync();
         var result = JsonSerializer.Deserialize<K>(content, _options);
         return result;
     }
-
-/*    private void CheckStatusCode (HttpStatusCode statusCode)
-    {
-        if (statusCode == HttpStatusCode.InternalServerError)
-        {
-            throw new BadGatewayException("");
-        }
-
-        if (statusCode == HttpStatusCode.GatewayTimeout)
-        {
-            throw new GatewayTimeoutException("");
-        }
-
-        if (statusCode == HttpStatusCode.BadGateway)
-        {
-            throw new BadGatewayException("");
-        }
-    }*/
 }
