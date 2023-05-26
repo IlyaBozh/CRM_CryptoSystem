@@ -47,7 +47,7 @@ public class TransactionsController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
-    public async Task<ActionResult<long>> AddWithdraw([FromBody] TransactionRequest request)
+    public async Task<ActionResult<long>> AddWithdraw([FromBody] TransactionTransferRequest request)
     {
         _logger.LogInformation("Controllers: Add withdraw");
         var claims = this.GetClaims();
