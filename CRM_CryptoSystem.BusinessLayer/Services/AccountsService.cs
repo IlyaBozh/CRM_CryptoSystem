@@ -34,7 +34,7 @@ public class AccountsService : IAccountsService
 
         if (lead.Role == Role.Lead)
         {
-            if (accountDTO.CryptoCurrency != CryptoCurrencies.USD && accountDTO.CryptoCurrency != CryptoCurrencies.BITCOIN)
+            if (accountDTO.CryptoCurrency != Currency.USD && accountDTO.CryptoCurrency != Currency.BITCOIN)
             {
                 throw new RegularAccountRestrictionException("Regular lead cannot have any other account except RUB or USD");
             }

@@ -15,16 +15,16 @@ public class TransactionsService : ITransactionsService
         _logger = logger;
     }
 
-    public async Task<long> AddDeposit(TransactionRequest request)
+    public async Task<long> AddDeposit(TransactionRequestModel request)
     {
         _logger.LogInformation($"Business layer: Database query for adding deposit: {request.AccountId}, {request.Amount}, {request.Currency}");
-        return await _httpService.Post<TransactionRequest, long>(request, PathConst.DepositPath);
+        return await _httpService.Post<TransactionRequestModel, long>(request, PathConst.DepositPath);
     }
 
-    public async Task<long> AddWithdraw(TransactionRequest request)
+    public async Task<long> AddWithdraw(TransactionRequestModel request)
     {
         _logger.LogInformation($"Business layer: Database query for adding withdraw {request.AccountId}, {request.Amount}, {request.Currency}");
-        return await _httpService.Post<TransactionRequest, long>(request, PathConst.WithdrawPath);
+        return await _httpService.Post<TransactionRequestModel, long>(request, PathConst.WithdrawPath);
     }
 
     public async Task<decimal> GetBalanceByAccountsId(int accountId)
@@ -33,14 +33,14 @@ public class TransactionsService : ITransactionsService
         return await _httpService.GetBalanceByAccountsId(accountId);
     }
 
-    public async Task<TransactionResponse> GetTransactionById(int transactionId)
+    public async Task<TransactionResponseModel> GetTransactionById(int transactionId)
     {
         _logger.LogInformation($"Business layer: Database query for getting transaction by id {transactionId}");
         var content = await _httpService.GetTransaction(transactionId);
         return content;
     }
 
-    public async Task<List<TransactionResponse>> GetTransactionsByAccountId(int accountId)
+    public async Task<List<TransactionResponseModel>> GetTransactionsByAccountId(int accountId)
     {
         _logger.LogInformation($"Business layer: Database query for getting transactions by account id {accountId}");
         var content = await _httpService.GetTransactionsByAccountId(accountId);

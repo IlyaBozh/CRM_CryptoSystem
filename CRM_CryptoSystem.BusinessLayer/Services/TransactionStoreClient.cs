@@ -41,23 +41,23 @@ public class TransactionStoreClient : IHttpService
         return result;
     }
 
-    public async Task<TransactionResponse> GetTransaction(int transactionId)
+    public async Task<TransactionResponseModel> GetTransaction(int transactionId)
     {
         var response = await _httpClient.GetAsync($"/transactions/{transactionId}");
         response.EnsureSuccessStatusCode();
 
         var content = await response.Content.ReadAsStringAsync();
-        var result = JsonSerializer.Deserialize<TransactionResponse>(content, _options);
+        var result = JsonSerializer.Deserialize<TransactionResponseModel>(content, _options);
         return result;
     }
 
-    public async Task<List<TransactionResponse>> GetTransactionsByAccountId(int accountId)
+    public async Task<List<TransactionResponseModel>> GetTransactionsByAccountId(int accountId)
     {
         var response = await _httpClient.GetAsync($"/accounts/{accountId}/transactions");
         response.EnsureSuccessStatusCode();
 
         var content = await response.Content.ReadAsStringAsync();
-        var result = JsonSerializer.Deserialize<List<TransactionResponse>>(content, _options);
+        var result = JsonSerializer.Deserialize<List<TransactionResponseModel>>(content, _options);
         return result;
     }
 

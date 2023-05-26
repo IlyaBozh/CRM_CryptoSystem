@@ -56,10 +56,6 @@ public class AuthService : IAuthService
 
         ClaimModelReturnerService.ReturnLead(lead, login, password, claimModel);
 
-        var admin = await _adminsRepository.GetAdminByEmail(login);
-
-        ClaimModelReturnerService.ReturnAdmin(admin, login, password, claimModel);
-
         return claimModel;
     }
 }

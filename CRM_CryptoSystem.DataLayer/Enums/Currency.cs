@@ -1,6 +1,6 @@
 ﻿namespace CRM_CryptoSystem.DataLayer.Enums;
 
-public enum CryptoCurrencies
+public enum Currency
 {
     USD = 1,
     BITCOIN

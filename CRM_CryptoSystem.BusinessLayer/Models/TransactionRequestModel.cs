@@ -1,9 +1,11 @@
 ﻿
-using IncredibleBackendContracts.Enums;
+
+
+using CRM_CryptoSystem.DataLayer.Enums;
 
 namespace CRM_CryptoSystem.BusinessLayer.Models;
 
-public class TransactionRequest
+public class TransactionRequestModel
 {
     public long AccountId { get; set; }
     public Currency Currency { get; set; }

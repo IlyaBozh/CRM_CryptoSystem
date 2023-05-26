@@ -3,7 +3,8 @@
     [CryptoCurrency] TINYINT                NOT NULL,
     [Status]         TINYINT                NOT NULL,
     [LeadId]         INT                    NOT NULL,
-    [isDeleted]      BIT DEFAULT 0          NOT NULL
+    [isDeleted]      BIT DEFAULT 0          NOT NULL,
+    FOREIGN KEY ([LeadId]) REFERENCES [dbo].[Lead] ([Id])
 );
 
 GO
