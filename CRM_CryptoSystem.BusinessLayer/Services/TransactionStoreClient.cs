@@ -32,7 +32,7 @@ public class TransactionStoreClient : IHttpService
     }
 
 
-    public async Task<decimal> GetBalanceByAccountsId(int accountId)
+    public async Task<decimal> GetBalanceByAccountsId(long accountId)
     {
         var response = await _httpClient.GetAsync($"/accounts/{accountId}/balance");
         response.EnsureSuccessStatusCode();

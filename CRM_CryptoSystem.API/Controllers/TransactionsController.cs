@@ -4,6 +4,7 @@ using CRM_CryptoSystem.API.Models.Requests;
 using CRM_CryptoSystem.API.Models.Responses;
 using CRM_CryptoSystem.BusinessLayer.Models;
 using CRM_CryptoSystem.BusinessLayer.Services.Interfaces;
+using CryptoSystem_NuGetPackage.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Transactions;
@@ -37,7 +38,7 @@ public class TransactionsController : Controller
     {
         _logger.LogInformation("Controllers: Add deposit");
         var claims = this.GetClaims();
-        var transactionId = await _transactionsService.AddDeposit(_mapper.Map<TransactionRequestModel>(request));
+        var transactionId = await _transactionsService.AddDeposit(request);
         return Created($"{this.GetShemeAndHostString()}/transactions/{transactionId}", transactionId);
     }
 
@@ -47,12 +48,12 @@ public class TransactionsController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
-    public async Task<ActionResult<long>> AddWithdraw([FromBody] TransactionTransferRequest request)
+    public async Task<ActionResult<List<long>>> AddWithdraw([FromBody] TransactionTransferRequest request)
     {
         _logger.LogInformation("Controllers: Add withdraw");
         var claims = this.GetClaims();
-        var transactionId = await _transactionsService.AddWithdraw(_mapper.Map<TransactionTransferRequestModel>(request));
-        return Created($"{this.GetShemeAndHostString()}/transactions/{transactionId}", transactionId);
+        var transactionsId = await _transactionsService.AddWithdraw(request);
+        return Created($"{this.GetShemeAndHostString()}/transactions/{transactionsId}", transactionsId);
     }
 
     [Authorize]
@@ -93,7 +94,7 @@ public class TransactionsController : Controller
     {
         _logger.LogInformation("Controllers: Get balance by account id");
         var claims = this.GetClaims();
-        var transactions = await _transactionsService.GetBalanceByAccountsId(accountId);
-        return Json(transactions);
+        var balance = await _transactionsService.GetBalanceByAccountsId(accountId);
+        return Json(balance);
     }
 }

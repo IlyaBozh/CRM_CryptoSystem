@@ -1,4 +1,5 @@
 ﻿
+using CRM_CryptoSystem.BusinessLayer.Exceptions;
 using CRM_CryptoSystem.BusinessLayer.Infrastructure;
 using CRM_CryptoSystem.BusinessLayer.Models;
 using CRM_CryptoSystem.BusinessLayer.Services.Interfaces;
@@ -53,6 +54,11 @@ public class AuthService : IAuthService
         ClaimModel claimModel = new ClaimModel();
 
         var lead = await _leadsRepository.GetByEmail(login);
+
+        if (lead == null)
+        {
+            throw new NotFoundException("No user with such mail");
+        }
 
         ClaimModelReturnerService.ReturnLead(lead, login, password, claimModel);
 

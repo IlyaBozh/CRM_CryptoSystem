@@ -17,7 +17,6 @@ LogManager.Configuration.Variables[$"{environment: LOG_DIRECTORY}"] = "Logs";
 builder.Host.UseNLog();
 
 builder.Services.AddScoped<IDbConnection>(c => new SqlConnection(dbConfig.CRM_CONNECTION_STRING));
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -26,16 +25,18 @@ builder.Services.AddAuthorization();
 builder.Services.AddAuthentications();
 builder.Services.AddServices();
 builder.Services.AddFluentValidation();
+/*builder.Services.ConfigureCors();*/
 builder.Services.AddAutoMapper(typeof(MapperConfig));
 /*builder.Services.AddConsumersAndProducers();*/
 
 var app = builder.Build();
 
-//app.UseMiddleware<ExceptionMiddleware>();
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseSwagger();
 app.UseSwaggerUI();
 
+/*app.UseCors("CorsPolicy");*/
 
 app.UseHttpsRedirection();
 

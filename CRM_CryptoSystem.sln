@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRM_CryptoSystem.API", "CRM
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "CRM_CryptoSystem.DB", "CRM_CryptoSystem.DB\CRM_CryptoSystem.DB.sqlproj", "{B6488E4B-20AD-4CFE-B588-18F6E40D1584}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRM_CryptoSystem.DataLayer", "CRM_CryptoSystem.DataLayer\CRM_CryptoSystem.DataLayer.csproj", "{58E99FAA-0BCC-4C14-9415-466E8D2316EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRM_CryptoSystem.DataLayer", "CRM_CryptoSystem.DataLayer\CRM_CryptoSystem.DataLayer.csproj", "{58E99FAA-0BCC-4C14-9415-466E8D2316EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRM_CryptoSystem.BusinessLayer", "CRM_CryptoSystem.BusinessLayer\CRM_CryptoSystem.BusinessLayer.csproj", "{4EC71BDB-1AA1-4D86-B44D-00564A877E6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRM_CryptoSystem.BusinessLayer", "CRM_CryptoSystem.BusinessLayer\CRM_CryptoSystem.BusinessLayer.csproj", "{4EC71BDB-1AA1-4D86-B44D-00564A877E6B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

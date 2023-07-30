@@ -1,4 +1,5 @@
-﻿using CRM_CryptoSystem.API.Enums;
+﻿
+using CryptoSystem_NuGetPackage.Enums;
 
 namespace CRM_CryptoSystem.API.Models.Responses;
 
