@@ -69,7 +69,7 @@ public class AccountsController : Controller
         return Created("", result);
     }
 
-    [Authorize]
+/*    [Authorize]
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
@@ -83,7 +83,7 @@ public class AccountsController : Controller
         var claim = this.GetClaims();
         await _accountService.Update(_mapper.Map<AccountDto>(accountRequest), id, claim);
         return NoContent();
-    }
+    }*/
 
     [Authorize]
     [HttpDelete("{id}")]

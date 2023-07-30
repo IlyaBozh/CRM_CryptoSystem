@@ -1,6 +1,7 @@
 ﻿
 using CRM_CryptoSystem.BusinessLayer.Models;
 using CRM_CryptoSystem.BusinessLayer.Services.Interfaces;
+using CryptoSystem_NuGetPackage.Requests;
 using Microsoft.Extensions.Logging;
 
 namespace CRM_CryptoSystem.BusinessLayer.Services;
@@ -15,19 +16,23 @@ public class TransactionsService : ITransactionsService
         _logger = logger;
     }
 
-    public async Task<long> AddDeposit(TransactionRequestModel request)
+    public async Task<long> AddDeposit(TransactionRequest request)
     {
+        if (await GetBalanceByAccountsId(request.AccountId) >= 1000.0m)
+        {
+            throw new InvalidOperationException("The balance has not reached a critical minimum");
+        }
         _logger.LogInformation($"Business layer: Database query for adding deposit: {request.AccountId}, {request.Amount}, {request.Currency}");
-        return await _httpService.Post<TransactionRequestModel, long>(request, PathConst.DepositPath);
+        return await _httpService.Post<TransactionRequest, long>(request, PathConst.DepositPath);
     }
 
-    public async Task<long> AddWithdraw(TransactionTransferRequestModel request)
+    public async Task<List<long>> AddWithdraw(TransactionTransferRequest request)
     {
         _logger.LogInformation($"Business layer: Database query for adding withdraw {request.AccountId}, {request.Amount}, {request.Currency}");
-        return await _httpService.Post<TransactionTransferRequestModel, long>(request, PathConst.WithdrawPath);
+        return await _httpService.Post<TransactionTransferRequest, List<long>>(request, PathConst.WithdrawPath);
     }
 
-    public async Task<decimal> GetBalanceByAccountsId(int accountId)
+    public async Task<decimal> GetBalanceByAccountsId(long accountId)
     {
         _logger.LogInformation($"Business layer: Database query for getting balance by accounts id {accountId}");
         return await _httpService.GetBalanceByAccountsId(accountId);

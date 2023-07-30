@@ -1,6 +1,5 @@
 ﻿
-
-using CRM_CryptoSystem.DataLayer.Enums;
+using CryptoSystem_NuGetPackage.Enums;
 
 namespace CRM_CryptoSystem.BusinessLayer.Models;
 

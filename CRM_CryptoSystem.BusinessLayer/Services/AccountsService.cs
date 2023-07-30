@@ -2,13 +2,9 @@
 using CRM_CryptoSystem.BusinessLayer.Exceptions;
 using CRM_CryptoSystem.BusinessLayer.Models;
 using CRM_CryptoSystem.BusinessLayer.Services.Interfaces;
-using CRM_CryptoSystem.DataLayer.Enums;
 using CRM_CryptoSystem.DataLayer.Interfaces;
 using CRM_CryptoSystem.DataLayer.Models;
-using CRM_CryptoSystem.DataLayer.Repositories;
 using Microsoft.Extensions.Logging;
-using System.Security.Claims;
-using System.Security.Principal;
 
 namespace CRM_CryptoSystem.BusinessLayer.Services;
 
@@ -28,17 +24,10 @@ public class AccountsService : IAccountsService
     public async Task<int> Add(AccountDto accountDTO, ClaimModel claim)
     {
         _logger.LogInformation($"Business layer: Database query for adding account {accountDTO.LeadId}, {accountDTO.CryptoCurrency}, {accountDTO.Status}");
-/*        AccessService.CheckAccessForLeadAndManager(accountDTO.Id, claim);
-*/
+        AccessService.CheckAccessForLeadAndManager(accountDTO.Id, claim);
+
         var lead = await _leadsRepository.GetById(accountDTO.LeadId);
 
-        if (lead.Role == Role.Lead)
-        {
-            if (accountDTO.CryptoCurrency != Currency.USD && accountDTO.CryptoCurrency != Currency.BITCOIN)
-            {
-                throw new RegularAccountRestrictionException("Regular lead cannot have any other account except RUB or USD");
-            }
-        }
 
         List<AccountDto> accountsOfLead = await _accountsRepository.GetAllByLeadId(accountDTO.LeadId);
         var isRepeated = accountsOfLead.Any(a => a.CryptoCurrency == accountDTO.CryptoCurrency);

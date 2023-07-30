@@ -15,10 +15,8 @@ public class MapperConfig : Profile
         CreateMap<LeadDto, LeadAllInfoResponse>();
         CreateMap<LeadDto, LeadMainInfoResponse>();
 
-        CreateMap<TransactionRequest, TransactionRequestModel>();
         CreateMap<TransactionResponseModel, TransactionResponse>();
 
-        CreateMap<TransactionTransferRequest, TransactionTransferRequestModel>();
 
         CreateMap<AddAccountRequest, AccountDto>();
         CreateMap<AddAccountRequest, UpdateAccountRequest>();

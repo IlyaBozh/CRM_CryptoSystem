@@ -5,6 +5,8 @@ using CRM_CryptoSystem.BusinessLayer.Services.Interfaces;
 using CRM_CryptoSystem.DataLayer.Enums;
 using CRM_CryptoSystem.DataLayer.Interfaces;
 using CRM_CryptoSystem.DataLayer.Models;
+using CryptoSystem_NuGetPackage.Enums;
+using CryptoSystem_NuGetPackage.Requests;
 using Microsoft.Extensions.Logging;
 
 namespace CRM_CryptoSystem.BusinessLayer.Services;
@@ -50,7 +52,7 @@ public class LeadsService : ILeadsService
 
         var accountId = await _accountsRepository.Add(account);
 
-        TransactionRequestModel transactionRequest = new TransactionRequestModel()
+        TransactionRequest transactionRequest = new TransactionRequest()
         {
             AccountId = accountId,
             Currency = Currency.USD,
@@ -59,7 +61,7 @@ public class LeadsService : ILeadsService
 
         _logger.LogInformation($"Business layer: Database query for adding deposit: {transactionRequest.AccountId}, {transactionRequest.Amount}, {transactionRequest.Currency}");
 
-        var transactionId = await _httpService.Post<TransactionRequestModel, long>(transactionRequest, PathConst.DepositPath);
+        var transactionId = await _httpService.Post<TransactionRequest, long>(transactionRequest, PathConst.DepositPath);
 
         _logger.LogInformation($"Business layer: Database query for adding account Id: {accountId} by LeadId {lead.Id}");
 
@@ -164,4 +166,5 @@ public class LeadsService : ILeadsService
     }
 
     private async Task<bool> CheckEmailForUniqueness(string email) => await _leadsRepository.GetByEmail(email) == default;
+
 }

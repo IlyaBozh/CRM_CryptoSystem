@@ -10,6 +10,7 @@ using CRM_CryptoSystem.API.Validators;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using System;
 
 namespace CRM_CryptoSystem.API.Extensions;
 
@@ -45,6 +46,19 @@ public static class ProgrammExtentions
                 },
             });
         });
+    }
+
+    public static void ConfigureCors(this IServiceCollection services)
+    {
+        services.AddCors(options => options.AddPolicy("CorsPolicy",
+            builder =>
+            {
+                builder
+                .WithOrigins("https://localhost:7097")
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials();
+            }));
     }
 
     public static void AddAuthentications(this IServiceCollection services)
